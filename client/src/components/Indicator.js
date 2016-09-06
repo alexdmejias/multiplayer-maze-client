@@ -5,9 +5,7 @@ class Indicator extends React.Component {
     super(props);
   }
   render() {
-    console.log(this.props);
-    
-    return (<h1>I am the indicator, {this.props.connectionStatus}</h1>);
+    return (<h1>currently: {this.props.connectionStatus}</h1>);
   }
 }
 

@@ -16,10 +16,12 @@ io.on('connection', function (socket) {
   socket.once('disconnect', () => {
     connections.splice(connections.indexOf(socket.id), 1);
     console.log('someone disconnected, we now have ', connections.length, ' connections');
-
+    io.emit('game_delete-connection', socket.id);
   });
 
-  connections.push(socket.id);
   console.log('new connection stated, we now have ', connections.length, ' connections');
-  socket.emit('game_disconnection', JSON.stringify(connections));
+  io.emit('game_new-connection', socket.id);
+  connections.push(socket.id);
+  io.to(socket.id).emit('game_current-connections', JSON.stringify(connections));
+
 });
