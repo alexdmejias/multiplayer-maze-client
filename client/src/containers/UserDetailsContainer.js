@@ -1,24 +1,24 @@
 import { connect } from 'react-redux';
-import UserList from '../components/UserList';
+import UserDetails from '../components/UserDetails';
 import * as actions from '../actions';
 
 const mapStateToProps = (state) => {
   return {
-    users: state.usersState
+    details: state.userDetails
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onUserClick: (id) => {
-      dispatch(actions.getData());
+    onClose: () => {
+      dispatch(actions.hideDetails())
     }
   }
 }
 
-const UserListContainer = connect(
+const UserDetailsContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(UserList);
+)(UserDetails);
 
-export default UserListContainer
+export default UserDetailsContainer;

@@ -1,6 +1,4 @@
-import {createStore, combineReducers} from 'redux';
-
-function usersReducer(state = [], action) {
+export default function usersReducer(state = [], action) {
   if (action.type === 'ADD_USER') {
     return state.concat([action.user]);
   }
@@ -14,13 +12,10 @@ function usersReducer(state = [], action) {
     state = JSON.parse(action.users);
   }
 
+  if (action.type === 'DATA_ARRIVED') {
+    console.log(state);
+    return state.concat(action.payload);
+  }
+
   return state;
 }
-
-const reducers = combineReducers({
-  usersState: usersReducer
-});
-
-const store = createStore(reducers, window.devToolsExtension && window.devToolsExtension());
-
-export default store;

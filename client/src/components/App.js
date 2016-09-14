@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+// import logo from '../logo.svg';
 import io from 'socket.io-client';
 import {connect} from 'redux';
-import store from './reducers'; 
-import * as actions from './actions';
+import store from '../store'; 
+import * as actions from '../actions';
 
 import './App.css';
 
-import Indicator from './components/Indicator';
-import UserListContainer from './containers/UserListContainer';
+import Indicator from './Indicator';
+import UserListContainer from '../containers/UserListContainer';
+import UserDetailsContainer from '../containers/UserDetailsContainer';
 
 const socket = io('http://localhost:8001');
 
@@ -61,6 +62,7 @@ class App extends Component {
       <div className="App">
         <Indicator connectionStatus={this.state.connectionStatus}/>
         <UserListContainer />
+        <UserDetailsContainer details="wasd"/>
       </div>
     );
   }
