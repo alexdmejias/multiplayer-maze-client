@@ -14,14 +14,6 @@ class Cell {
     
   }
 
-  get row() {
-    return this.row;
-  }
-
-  get column() {
-    return this.column;
-  }
-
   // instead of creating a setter for each direction
   setNeighbors(direction, value) {
     this.neighbors[direction] = value;
@@ -67,4 +59,4 @@ class Cell {
   }
 }
 
-export default Cell;
+module.exports = Cell;

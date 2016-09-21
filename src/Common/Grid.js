@@ -1,22 +1,12 @@
-import Cell from './Cell';
+const Cell = require('./Cell');
 
 class Grid {
   constructor(rows, columns) {
     this.rows = rows;
     this.columns = columns;
 
-    // this.grid;
-
     this.grid = this.prepareGrid();
     this.configureCells();
-  }
-
-  get rows() {
-    return this.rows;
-  }
-
-  get columns() {
-    return this.columns;
   }
 
   prepareGrid() {
@@ -36,23 +26,18 @@ class Grid {
       const {row, column} = cell;
 
       // assign the neighbors for each cell
-      cell.north = this.getCell(row - 1, col);
-      cell.south = this.getCell(row + 1, col);
-      cell.west = this.getCell(row, col - 1);
-      cell.east = this.getCell(row, col + 1);
+      cell.neighbors.north = this.getCell(row - 1, column);
+      cell.neighbors.south = this.getCell(row + 1, column);
+      cell.neighbors.west = this.getCell(row, column - 1);
+      cell.neighbors.east = this.getCell(row, column + 1);
     });
   }
 
   getCell(row, column) {
-    if ((row < 0) || (row > this.rows.length)) {
-      return false;
+    if (this.grid[row] && this.grid[row][column]) {
+      return this.grid[row][column];
     }
 
-    if ((column < 0) || (column > this.columns.length)) {
-      return false;
-    }
-
-    return this.grid[row][column];
   }
 
   randomCell() {
@@ -67,14 +52,14 @@ class Grid {
   }
 
   eachRow() {
-    this.grid.forEach((row) => {
-      // rb: yield row
-    });
+    return this.grid;
   }
 
   eachCell() {
-    // todo
+    return this.grid.reduce((prev, curr, currIndex) => {
+      return prev.concat(curr);
+    }, []);
   }
 }
 
-export default Grid;
+module.exports = Grid;
