@@ -1,11 +1,20 @@
+.maze {
+  position: absolute;
+  background: #999;
+  width: 500px;
+  height: 500px;
+  transition: background 1s;
+}
+
+.maze.green {
+  background: green;
+}
 .cell {
   position: absolute;
   width: 50px;
   height: 50px;
-  background: black;
   padding: 0;
   box-sizing: border-box;
-  transition: background 1s;
 }
 
 .cell:before {
@@ -23,7 +32,3 @@
 .b-t { padding-top: 1px; }
 
 .b-w { padding-left: 1px; }
-
-.green {
-  background: green;
-}

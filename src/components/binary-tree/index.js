@@ -40,12 +40,14 @@ class BinaryTree extends Component {
 
   componentDidMount() {
     setTimeout(() => {
-      this.props.showBorders = true;
+      this.setState({
+        showBorders: true
+      });
       console.log(this)
     }, 3000)
   }
 
-  renderGrid(grid) { // works
+  renderGrid(grid) {
     const elems = [];
     const borderWidth = 3;
     const size = 50;
@@ -60,7 +62,7 @@ class BinaryTree extends Component {
           'b-e': cell.linked(cell.neighbors.east) || !cell.neighbors.east,
           'b-s': cell.linked(cell.neighbors.south) || !cell.neighbors.south,
           'b-t': !cell.neighbors.north, 
-          'b-w': !cell.neighbors.west 
+          'b-w': !cell.neighbors.west, 
         };
 
         const key = `${rowIndex} - ${cellIndex}`;
@@ -75,7 +77,7 @@ class BinaryTree extends Component {
     const grid = new GridClass(10, 10);
     const prepared = this.prepareGrid(grid);
     return (
-      <div className={this.state.showBorders? 'green': ''}>
+      <div className={classNames('maze', {'green': this.state.showBorders})}>
           { this.renderGrid(grid) }
       </div>
 
