@@ -1,9 +1,10 @@
 import React from 'react';
-import Grid from '../Grid';
+// import Grid from '../Grid';
+import BinaryTree from '../binary-tree';
 
 const App = () => (
   <div>
-    <Grid size={10} />
+    <BinaryTree />
   </div>
 );
 

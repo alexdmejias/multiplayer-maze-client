@@ -1,0 +1,29 @@
+.cell {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: black;
+  padding: 0;
+  box-sizing: border-box;
+  transition: background 1s;
+}
+
+.cell:before {
+  content: '';
+  background: #999;
+  width: 100%;
+  display: block;
+  height: 100%;
+}
+
+.b-e { padding-right: 1px; }
+
+.b-s { padding-bottom: 1px; }
+
+.b-t { padding-top: 1px; }
+
+.b-w { padding-left: 1px; }
+
+.green {
+  background: green;
+}
