@@ -1,21 +1,40 @@
 import React, {Component} from 'react';
-
+import {HotKeys} from 'react-hotkeys';
 import CellClass from '../../common/Cell';
 import GridClass from '../../common/Grid';
-
-import _ from 'lodash'; 
 
 import './styles.css';
 import classNames from 'classnames';
 
-
 class BinaryTree extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      visitedCells: this.cellsToClasses(this.props.player.visitedCells),
+      lastVisitedCells: this.props.player.lastVisitedCells
+    };
+
+    this.keyMap = {
+      'north': ['up', 'w'],
+      'south': ['down', 's'],
+      'west': ['left', 'a'],
+      'east': ['right', 'd']
+    };
+
+    const grid = new GridClass(10, 10);
+    this.preparedGrid = this.prepareGrid(grid);
+  }
+
+  cellsToClasses(arr) {
+    return arr.map((curr) => curr.join('-'));
+  }
+
+  getLastItem(arr) {
+    return arr[arr.legth - 1];
   }
 
   prepareGrid(grid) {
+    console.warn(grid)
     for (let i = 0; i < grid.eachCell().length; i++ ) {
       let cell = grid.eachCell()[i];
       let neighbors = [];
@@ -38,21 +57,30 @@ class BinaryTree extends Component {
     return grid;
   }
 
+  componentWillReceiveProps(props) {
+    console.log('new props', props)
+    this.setState({
+      visitedCells: this.cellsToClasses(props.player.visitedCells),
+      lastVisitedCells: props.player.lastVisitedCells 
+    });
+  }
+
   componentDidMount() {
     setTimeout(() => {
       this.setState({
         showBorders: true
       });
-      console.log(this)
-    }, 3000)
+    }, 1000);
   }
 
-  renderGrid(grid) {
+  renderGrid() {
+    const grid = this.preparedGrid;
     const elems = [];
-    const borderWidth = 3;
     const size = 50;
+
     grid.eachRow().forEach((row, rowIndex) => {
       row.forEach((cell, cellIndex) => {
+        const key = `${rowIndex}-${cellIndex}`;
         const rectProps = {
           top: (cell.row * size),
           left: (cell.column * size)
@@ -63,24 +91,42 @@ class BinaryTree extends Component {
           'b-s': cell.linked(cell.neighbors.south) || !cell.neighbors.south,
           'b-t': !cell.neighbors.north, 
           'b-w': !cell.neighbors.west, 
+          'visited': this.state.visitedCells.indexOf(key) > -1,
+          'current': this.state.lastVisitedCells.join('-') === key
         };
 
-        const key = `${rowIndex} - ${cellIndex}`;
         elems.push( <div key={key} className={classNames('cell', neighborClasses)} style={rectProps} > </div> );
       });
     });
 
-    return _.map(elems, (c) => c);
+    return elems.map((curr) => curr);
+  }
+  
+  handleMove(direction) {
+    const currPos = this.props.player.lastVisitedCells;
+    const currCell = this.preparedGrid.grid[currPos[0]][currPos[1]];
+    const possibleNeighbor = currCell.neighbors[direction];
+
+    if (possibleNeighbor && !currCell.linked(possibleNeighbor)) {
+      this.props.playerMove([possibleNeighbor.row, possibleNeighbor.column]);
+    }
   }
   
   render() {
-    const grid = new GridClass(10, 10);
-    const prepared = this.prepareGrid(grid);
-    return (
-      <div className={classNames('maze', {'green': this.state.showBorders})}>
-          { this.renderGrid(grid) }
-      </div>
 
+    const handlers = {
+      'north': () => { this.handleMove('north')},
+      'south': () => { this.handleMove('south')},
+      'east' : () => { this.handleMove('east')},
+      'west' : () => { this.handleMove('west')}
+    };
+
+    return (
+      <HotKeys keyMap={this.keyMap} handlers={handlers}>
+        <div className={classNames('maze', {'green': this.state.showBorders})}>
+          { this.renderGrid() }
+        </div>
+      </HotKeys>
     )
   }
 }

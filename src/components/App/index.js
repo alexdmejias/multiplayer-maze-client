@@ -1,11 +1,15 @@
 import React from 'react';
-// import Grid from '../Grid';
 import BinaryTree from '../binary-tree';
 
-const App = () => (
-  <div>
-    <BinaryTree />
-  </div>
-);
+class App extends React.Component {
+  
+  render() {
+    return (
+      <div>
+        <BinaryTree player={this.props.player} playerMove={this.props.playerMove}/>
+      </div>
+    );
+  }
+}
 
 export default App;
