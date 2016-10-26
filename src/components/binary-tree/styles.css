@@ -4,6 +4,7 @@
   width: 500px;
   height: 500px;
   transition: background 1s;
+  --border-width: 3px;
 }
 
 .maze.green {
@@ -17,6 +18,14 @@
   box-sizing: border-box;
 }
 
+.cell.visited:before {
+  background: #666;
+}
+
+.cell.current:before {
+  background: tomato;
+}
+
 .cell:before {
   content: '';
   background: #999;
@@ -25,10 +34,10 @@
   height: 100%;
 }
 
-.b-e { padding-right: 1px; }
+.b-e { padding-right: var(--border-width); }
 
-.b-s { padding-bottom: 1px; }
+.b-s { padding-bottom: var(--border-width); }
 
-.b-t { padding-top: 1px; }
+.b-t { padding-top: var(--border-width); }
 
-.b-w { padding-left: 1px; }
+.b-w { padding-left: var(--border-width); }
