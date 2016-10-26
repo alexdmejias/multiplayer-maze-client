@@ -19,11 +19,12 @@
 }
 
 .cell.visited:before {
-  background: #666;
+  background: #888;
 }
 
 .cell.current:before {
   background: tomato;
+  transition: background 50ms;
 }
 
 .cell:before {
@@ -32,6 +33,7 @@
   width: 100%;
   display: block;
   height: 100%;
+  transition: background 1s;
 }
 
 .b-e { padding-right: var(--border-width); }
