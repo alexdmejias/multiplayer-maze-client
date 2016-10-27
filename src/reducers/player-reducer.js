@@ -1,8 +1,7 @@
 import * as types from '../types';
 
 const initialState = {
-  visitedCells: [[0, 0]],
-  lastVisitedCells: [0, 0]
+  visitedCells: []
 };
 
 export default function player (state = initialState, action) {

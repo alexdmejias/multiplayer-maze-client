@@ -34,26 +34,35 @@ class BinaryTree extends Component {
   }
 
   prepareGrid(grid) {
+    const size = 50;
     console.warn(grid)
-    for (let i = 0; i < grid.eachCell().length; i++ ) {
-      let cell = grid.eachCell()[i];
-      let neighbors = [];
+    grid.eachRow().forEach((row, rowIndex) => {
+      row.forEach((cell, cellIndex) => {
+        let neighbors = [];
 
-      if (cell.neighbors.north) {
-        neighbors.push(cell.neighbors.north)
-      }
+        if (cell.neighbors.north) {
+          neighbors.push(cell.neighbors.north)
+        }
 
-      if (cell.neighbors.east) {
-        neighbors.push(cell.neighbors.east)
-      }
+        if (cell.neighbors.east) {
+          neighbors.push(cell.neighbors.east)
+        }
 
-      let index = Math.floor(Math.random() * neighbors.length);
-      let neighbor = neighbors[index];
+        let index = Math.floor(Math.random() * neighbors.length);
+        let neighbor = neighbors[index];
 
-      if (neighbor) {
-        cell.link(neighbor);
-      }
-    }
+        if (neighbor) {
+          cell.link(neighbor);
+        }
+
+        cell.className = `${cell.row}-${cell.column}`;
+        cell.position = {
+          top: (cell.row * size),
+          left: (cell.column * size),
+        }
+
+      });
+    });
     return grid;
   }
 
@@ -70,21 +79,20 @@ class BinaryTree extends Component {
       this.setState({
         showBorders: true
       });
+
+      this.props.playerMove([0, 0]);
     }, 1000);
   }
 
   renderGrid() {
     const grid = this.preparedGrid;
     const elems = [];
-    const size = 50;
 
+    console.log('>>>>>> rendering grid')
     grid.eachRow().forEach((row, rowIndex) => {
       row.forEach((cell, cellIndex) => {
-        const key = `${rowIndex}-${cellIndex}`;
-        const rectProps = {
-          top: (cell.row * size),
-          left: (cell.column * size)
-        };
+        const key = cell.className;
+        const rectProps = cell.position;
 
         const neighborClasses = {
           'b-e': cell.linked(cell.neighbors.east) || !cell.neighbors.east,
@@ -92,10 +100,11 @@ class BinaryTree extends Component {
           'b-t': !cell.neighbors.north, 
           'b-w': !cell.neighbors.west, 
           'visited': this.state.visitedCells.indexOf(key) > -1,
-          'current': this.state.lastVisitedCells.join('-') === key
+          'current': this.state.lastVisitedCells? this.state.lastVisitedCells.join('-') === key : ''
         };
 
         elems.push( <div key={key} className={classNames('cell', neighborClasses)} style={rectProps} > </div> );
+
       });
     });
 
