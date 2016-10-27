@@ -21,7 +21,7 @@ class BinaryTree extends Component {
       'east': ['right', 'd']
     };
 
-    const grid = new GridClass(10, 10);
+    const grid = new GridClass(20, 20);
     this.preparedGrid = this.prepareGrid(grid);
   }
 
@@ -34,7 +34,7 @@ class BinaryTree extends Component {
   }
 
   prepareGrid(grid) {
-    const size = 50;
+    const size = 25;
     console.warn(grid)
     grid.eachRow().forEach((row, rowIndex) => {
       row.forEach((cell, cellIndex) => {
@@ -80,7 +80,7 @@ class BinaryTree extends Component {
         showBorders: true
       });
 
-      this.props.playerMove([0, 0]);
+      this.props.playerMove([9, 0]);
     }, 1000);
   }
 

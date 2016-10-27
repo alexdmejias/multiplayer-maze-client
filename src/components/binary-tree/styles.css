@@ -1,10 +1,13 @@
 .maze {
+  --border-width: 1px;
+  --cell-size: 25px;
+  --maze-size: w0;
   position: absolute;
   background: #999;
-  width: 500px;
-  height: 500px;
+  /*width: 500px;*/
+  width: calc(var(--cell-size) * var(--maze-size));
+  height: calc(var(--cell-size) * var(--maze-size));
   transition: background 1s;
-  --border-width: 3px;
 }
 
 .maze.green {
@@ -12,8 +15,8 @@
 }
 .cell {
   position: absolute;
-  width: 50px;
-  height: 50px;
+  width: var(--cell-size);
+  height: var(--cell-size);
   padding: 0;
   box-sizing: border-box;
 }
@@ -33,7 +36,7 @@
   width: 100%;
   display: block;
   height: 100%;
-  transition: background 1s;
+  transition: background 500ms;
 }
 
 .b-e { padding-right: var(--border-width); }
