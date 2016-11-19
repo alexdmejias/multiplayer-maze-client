@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {HotKeys} from 'react-hotkeys';
-import CellClass from '../../common/Cell';
+// import CellClass from '../../common/Cell';
 import GridClass from '../../common/Grid';
 
 import './styles.css';
@@ -21,7 +21,8 @@ class BinaryTree extends Component {
       'east': ['right', 'd']
     };
 
-    const grid = new GridClass(20, 20);
+    const grid = new GridClass(10, 10);
+
     this.preparedGrid = this.prepareGrid(grid);
   }
 
@@ -34,8 +35,7 @@ class BinaryTree extends Component {
   }
 
   prepareGrid(grid) {
-    const size = 25;
-    console.warn(grid)
+    const size = 50;
     grid.eachRow().forEach((row, rowIndex) => {
       row.forEach((cell, cellIndex) => {
         let neighbors = [];
@@ -52,10 +52,9 @@ class BinaryTree extends Component {
         let neighbor = neighbors[index];
 
         if (neighbor) {
-          cell.link(neighbor);
+          cell.setLink(neighbor);
         }
 
-        cell.className = `${cell.row}-${cell.column}`;
         cell.position = {
           top: (cell.row * size),
           left: (cell.column * size),
@@ -63,11 +62,19 @@ class BinaryTree extends Component {
 
       });
     });
+
+    const distances = grid.getDistances(grid.getCell(9, 0));
+
+    for (let d in distances.cells) {
+      const p = d.split('-');
+      const cell = grid.getCell(...p);
+      cell.setDistance(distances.cells[d]);
+    }
+
     return grid;
   }
 
   componentWillReceiveProps(props) {
-    console.log('new props', props)
     this.setState({
       visitedCells: this.cellsToClasses(props.player.visitedCells),
       lastVisitedCells: props.player.lastVisitedCells 
@@ -75,35 +82,36 @@ class BinaryTree extends Component {
   }
 
   componentDidMount() {
-    setTimeout(() => {
       this.setState({
         showBorders: true
       });
 
       this.props.playerMove([9, 0]);
-    }, 1000);
   }
 
   renderGrid() {
     const grid = this.preparedGrid;
     const elems = [];
 
-    console.log('>>>>>> rendering grid')
     grid.eachRow().forEach((row, rowIndex) => {
       row.forEach((cell, cellIndex) => {
-        const key = cell.className;
+        const key = cell.id;
         const rectProps = cell.position;
 
         const neighborClasses = {
-          'b-e': cell.linked(cell.neighbors.east) || !cell.neighbors.east,
-          'b-s': cell.linked(cell.neighbors.south) || !cell.neighbors.south,
-          'b-t': !cell.neighbors.north, 
-          'b-w': !cell.neighbors.west, 
+          'b-e': !cell.isLinked(cell.neighbors.east),
+          'b-s': !cell.isLinked(cell.neighbors.south),
+          // 'b-t': cell.neighbors.north, 
+          // 'b-w': cell.neighbors.west, 
           'visited': this.state.visitedCells.indexOf(key) > -1,
           'current': this.state.lastVisitedCells? this.state.lastVisitedCells.join('-') === key : ''
         };
 
-        elems.push( <div key={key} className={classNames('cell', neighborClasses)} style={rectProps} > </div> );
+        elems.push( 
+          <div key={key} className={classNames('cell', neighborClasses)} style={rectProps} >
+            <small>{cell.distance || 'inf'}</small>
+          </div> 
+        );
 
       });
     });
@@ -116,7 +124,7 @@ class BinaryTree extends Component {
     const currCell = this.preparedGrid.grid[currPos[0]][currPos[1]];
     const possibleNeighbor = currCell.neighbors[direction];
 
-    if (possibleNeighbor && !currCell.linked(possibleNeighbor)) {
+    if (possibleNeighbor && currCell.isLinked(possibleNeighbor)) {
       this.props.playerMove([possibleNeighbor.row, possibleNeighbor.column]);
     }
   }

@@ -1,9 +1,13 @@
+const Distance = require('./Distance');
+
 class Cell {
   constructor(row, column) {
     this.row = row;
     this.column = column;
 
-    this.links = new Map();
+    this.links = {};
+
+    this.id = `${row}-${column}`;
 
     this.neighbors = {
       north: undefined,
@@ -11,6 +15,7 @@ class Cell {
       east: undefined,
       west: undefined
     };
+
     
   }
 
@@ -24,39 +29,62 @@ class Cell {
     return this.neighbors[direction];
   }
 
-  link(cell, bidirectional = true) {
-    this.links.set(cell, true); 
+  setLink(cell, bidirectional = true) {
+    this.links[cell.id] = cell;
 
     if (bidirectional) {
-      cell.link(this, false);
+      cell.links[this.id] = this
     }
     return this;
   }
 
-  unlink(cell, bidirectional = true) {
-    this.links.delete(cell);
+  delLink(cell, bidirectional = true) {
+    delete this.links[cell.id];
 
     if (bidirectional) {
-      cell.unlink(this, false);
+      delete cell.links[this.id];
     }
     return this;
   }
 
-  links() {
-    return this.links.keys();
+  getLinksIds () {
+    return Object.keys(this.links);
   }
 
-  linked(cell) {
-    return this.links.has(cell) || false;
+  getLinks () {
+    return Object.values(this.links)
+  }
+
+  getLink (id) {
+    return this.links[id];
+  }
+
+  isLinked (cell) {
+    if (cell) {
+      if (this.links[cell.id] ) {
+        return this.links[cell.id]
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  setDistance (dis) {
+    this.distance = dis; 
   }
 
   neighbors() {
     const list = [];
     for(let direction in this.neighbors) {
-      list.push(direction);
+      if (this.neighbors.hasOwnProperty(direction)) {
+        list.push(direction);
+      }
     }
     return list;
   }
+
 }
 
 module.exports = Cell;

@@ -1,10 +1,9 @@
 .maze {
   --border-width: 1px;
-  --cell-size: 25px;
-  --maze-size: w0;
+  --cell-size: 50px;
+  --maze-size: 5;
   position: absolute;
   background: #999;
-  /*width: 500px;*/
   width: calc(var(--cell-size) * var(--maze-size));
   height: calc(var(--cell-size) * var(--maze-size));
   transition: background 1s;
@@ -17,32 +16,23 @@
   position: absolute;
   width: var(--cell-size);
   height: var(--cell-size);
-  padding: 0;
   box-sizing: border-box;
+  background: #999;
+  transition: background 250ms;
 }
 
-.cell.visited:before {
+.cell.visited {
   background: #888;
 }
 
-.cell.current:before {
-  background: tomato;
-  transition: background 50ms;
+.cell.current {
+  background: red;
 }
 
-.cell:before {
-  content: '';
-  background: #999;
-  width: 100%;
-  display: block;
-  height: 100%;
-  transition: background 500ms;
+.cell small {
+  font-size: 8px;
+  position: absolute;
 }
 
-.b-e { padding-right: var(--border-width); }
-
-.b-s { padding-bottom: var(--border-width); }
-
-.b-t { padding-top: var(--border-width); }
-
-.b-w { padding-left: var(--border-width); }
+.b-e { border-right: 1px solid black; }
+.b-s { border-bottom: 1px solid black; }
