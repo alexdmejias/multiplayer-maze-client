@@ -71,25 +71,17 @@ class Grid {
     let currDistance = 1;
     distances.set(root.id, 0);
 
-    const printIds = (arr) => arr.reduce((prev, curr) => prev += ' ' + curr.id, ' ');
-
     while (frontier.length > 0) {
       const newFrontier = [];
       
-      for (let i = 0; i < frontier.length; i++ ) {
-        const currCell = frontier[i];
-        const links = currCell.getLinksIds();
-
-        for (let h = 0; h < links.length; h++) {
-          const currLink = links[h];
-          if (distances.get(currLink)) {
-            continue;
-          } else {
+      frontier.forEach((currCell) => {
+        currCell.getLinksIds().forEach((currLink) => {
+          if (!distances.get(currLink)) {
             distances.set(currLink, currDistance);
             newFrontier.push(currCell.getLink(currLink));
           }
-        }
-      }
+        });
+      });
       frontier = newFrontier;
       currDistance++;
     }
