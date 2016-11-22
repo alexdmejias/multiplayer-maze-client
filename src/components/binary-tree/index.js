@@ -1,10 +1,13 @@
 import React, {Component} from 'react';
 import {HotKeys} from 'react-hotkeys';
-// import CellClass from '../../common/Cell';
+
 import GridClass from '../../common/Grid';
+
+import Cell from '../cell';
 
 import './styles.css';
 import classNames from 'classnames';
+
 
 class BinaryTree extends Component {
   constructor(props) {
@@ -96,21 +99,17 @@ class BinaryTree extends Component {
     grid.eachRow().forEach((row, rowIndex) => {
       row.forEach((cell, cellIndex) => {
         const key = cell.id;
-        const rectProps = cell.position;
+        const styleProps = cell.position;
 
         const neighborClasses = {
           'b-e': !cell.isLinked(cell.neighbors.east),
           'b-s': !cell.isLinked(cell.neighbors.south),
-          // 'b-t': cell.neighbors.north, 
-          // 'b-w': cell.neighbors.west, 
           'visited': this.state.visitedCells.indexOf(key) > -1,
           'current': this.state.lastVisitedCells? this.state.lastVisitedCells.join('-') === key : ''
         };
 
         elems.push( 
-          <div key={key} className={classNames('cell', neighborClasses)} style={rectProps} >
-            <small>{cell.distance || 'inf'}</small>
-          </div> 
+          <Cell distance={cell.distance} key={key} classes={classNames('cell', neighborClasses)} styles={styleProps}/>
         );
 
       });
@@ -130,7 +129,6 @@ class BinaryTree extends Component {
   }
   
   render() {
-
     const handlers = {
       'north': () => { this.handleMove('north')},
       'south': () => { this.handleMove('south')},

@@ -69,7 +69,7 @@ class Grid {
     let distances = new Distance(root.id);
     let frontier = [root];
     let currDistance = 1;
-    distances.set(root.id, currDistance);
+    distances.set(root.id, 0);
 
     const printIds = (arr) => arr.reduce((prev, curr) => prev += ' ' + curr.id, ' ');
 
@@ -79,7 +79,6 @@ class Grid {
       for (let i = 0; i < frontier.length; i++ ) {
         const currCell = frontier[i];
         const links = currCell.getLinksIds();
-        
 
         for (let h = 0; h < links.length; h++) {
           const currLink = links[h];

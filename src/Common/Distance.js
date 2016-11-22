@@ -1,10 +1,6 @@
 class Distance {
   constructor(rootId) {
-    // this.root = root;
-
     this.cells = {};
-    
-    this.set(rootId, 0)
   }
 
   get (cellId) {
@@ -12,7 +8,9 @@ class Distance {
   }
 
   set (cellId, distance) {
-    this.cells[cellId] = distance;
+    if (Object.keys(this.cells).indexOf(cellId) === -1) {
+      this.cells[cellId] = distance;
+    }
   }
 
   getKeys() {

@@ -15,8 +15,6 @@ class Cell {
       east: undefined,
       west: undefined
     };
-
-    
   }
 
   // instead of creating a setter for each direction
