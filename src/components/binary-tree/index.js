@@ -8,9 +8,8 @@ import Cell from '../cell';
 import './styles.css';
 import classNames from 'classnames';
 
-
 class BinaryTree extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
       visitedCells: this.cellsToClasses(this.props.player.visitedCells),
@@ -30,26 +29,26 @@ class BinaryTree extends Component {
     this.preparedGrid = this.prepareGrid(grid);
   }
 
-  cellsToClasses(arr) {
+  cellsToClasses (arr) {
     return arr.map((curr) => curr.join('-'));
   }
 
-  getLastItem(arr) {
+  getLastItem (arr) {
     return arr[arr.legth - 1];
   }
 
-  prepareGrid(grid) {
+  prepareGrid (grid) {
     const size = 50;
     grid.eachRow().forEach((row, rowIndex) => {
       row.forEach((cell, cellIndex) => {
         let neighbors = [];
 
         if (cell.neighbors.north) {
-          neighbors.push(cell.neighbors.north)
+          neighbors.push(cell.neighbors.north);
         }
 
         if (cell.neighbors.east) {
-          neighbors.push(cell.neighbors.east)
+          neighbors.push(cell.neighbors.east);
         }
 
         let index = Math.floor(Math.random() * neighbors.length);
@@ -61,9 +60,8 @@ class BinaryTree extends Component {
 
         cell.position = {
           top: (cell.row * size),
-          left: (cell.column * size),
-        }
-
+          left: (cell.column * size)
+        };
       });
     });
 
@@ -78,14 +76,14 @@ class BinaryTree extends Component {
     return grid;
   }
 
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps (props) {
     this.setState({
       visitedCells: this.cellsToClasses(props.player.visitedCells),
-      lastVisitedCells: props.player.lastVisitedCells 
+      lastVisitedCells: props.player.lastVisitedCells
     });
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.setState({
       showBorders: true
     });
@@ -93,7 +91,7 @@ class BinaryTree extends Component {
     this.props.playerMove([9, 0]);
   }
 
-  renderGrid() {
+  renderGrid () {
     const grid = this.preparedGrid;
     const elems = [];
 
@@ -106,20 +104,19 @@ class BinaryTree extends Component {
           'b-e': !cell.isLinked(cell.neighbors.east),
           'b-s': !cell.isLinked(cell.neighbors.south),
           'visited': this.state.visitedCells.indexOf(key) > -1,
-          'current': this.state.lastVisitedCells? this.state.lastVisitedCells.join('-') === key : ''
+          'current': this.state.lastVisitedCells ? this.state.lastVisitedCells.join('-') === key : ''
         };
 
-        elems.push( 
-          <Cell distance={cell.distance} key={key} classes={classNames('cell', neighborClasses)} styles={styleProps}/>
+        elems.push(
+          <Cell distance={cell.distance} key={key} classes={classNames('cell', neighborClasses)} styles={styleProps} />
         );
-
       });
     });
 
     return elems.map((curr) => curr);
   }
   
-  handleMove(direction) {
+  handleMove (direction) {
     const currPos = this.props.player.lastVisitedCells;
     const currCell = this.preparedGrid.grid[currPos[0]][currPos[1]];
     const possibleNeighbor = currCell.neighbors[direction];
@@ -128,15 +125,15 @@ class BinaryTree extends Component {
       this.props.playerMove([possibleNeighbor.row, possibleNeighbor.column]);
     }
 
-    console.log(this.props.player.lastVisitedCells)
+    console.log(this.props.player.lastVisitedCells);
   }
   
-  render() {
+  render () {
     const handlers = {
-      'north': () => { this.handleMove('north')},
-      'south': () => { this.handleMove('south')},
-      'east' : () => { this.handleMove('east')},
-      'west' : () => { this.handleMove('west')}
+      'north': () => { this.handleMove('north'); },
+      'south': () => { this.handleMove('south'); },
+      'east': () => { this.handleMove('east'); },
+      'west': () => { this.handleMove('west'); }
     };
 
     return (
@@ -145,8 +142,11 @@ class BinaryTree extends Component {
           { this.renderGrid() }
         </div>
       </HotKeys>
-    )
+    );
   }
+  // render () {
+  //   return (<p>wasd</p>);
+  // }
 }
 
 export default BinaryTree;
