@@ -1,23 +1,23 @@
-{
-  "extends": ["airbnb"],
-  "parserOptions": {
-    "ecmaVersion": 6,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
-    }
-  },
-  "plugins": ["react"],
-  "rules": {
-    "require-jsdoc": "off",
-    "comma-dangle": "off",
-    "no-shadow": [0, { "hoist": "functions" }],
-    "func-names": "off",
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
-  },
-  "globals": {
-    "_": true,
-    "document": true,
-    "window": true
-  }
-}
+// {
+//   "extends": ["airbnb"],
+//   "parserOptions": {
+//     "ecmaVersion": 6,
+//     "sourceType": "module",
+//     "ecmaFeatures": {
+//       "jsx": true
+//     }
+//   },
+//   "plugins": ["react"],
+//   "rules": {
+//     "require-jsdoc": "off",
+//     "comma-dangle": "off",
+//     "no-shadow": [0, { "hoist": "functions" }],
+//     "func-names": "off",
+//     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+//   },
+//   "globals": {
+//     "_": true,
+//     "document": true,
+//     "window": true
+//   }
+// }

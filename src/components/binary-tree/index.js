@@ -14,7 +14,8 @@ class BinaryTree extends Component {
     super(props);
     this.state = {
       visitedCells: this.cellsToClasses(this.props.player.visitedCells),
-      lastVisitedCells: this.props.player.lastVisitedCells
+      lastVisitedCells: this.props.player.lastVisitedCells,
+      finish: '0-9'
     };
 
     this.keyMap = {
@@ -85,11 +86,11 @@ class BinaryTree extends Component {
   }
 
   componentDidMount() {
-      this.setState({
-        showBorders: true
-      });
+    this.setState({
+      showBorders: true
+    });
 
-      this.props.playerMove([9, 0]);
+    this.props.playerMove([9, 0]);
   }
 
   renderGrid() {
@@ -126,6 +127,8 @@ class BinaryTree extends Component {
     if (possibleNeighbor && currCell.isLinked(possibleNeighbor)) {
       this.props.playerMove([possibleNeighbor.row, possibleNeighbor.column]);
     }
+
+    console.log(this.props.player.lastVisitedCells)
   }
   
   render() {

@@ -1,1 +1,3 @@
 export const PLAYER_MOVED = 'PLAYER_MOVED';
+
+export const SESSION_STARTED = 'SESSION_STARTED';

@@ -5,7 +5,8 @@ import * as actions from '../actions/player'
 
 const mapStateToProps = (state) => {
   return {
-    player: state.playerReducer
+    player: state.playerReducer,
+    session: state.sessionReducer
   };
 };
 
