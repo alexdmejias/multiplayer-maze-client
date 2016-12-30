@@ -1,7 +1,5 @@
-const Distance = require('./Distance');
-
 class Cell {
-  constructor(row, column) {
+  constructor (row, column) {
     this.row = row;
     this.column = column;
 
@@ -18,25 +16,25 @@ class Cell {
   }
 
   // instead of creating a setter for each direction
-  setNeighbors(direction, value) {
+  setNeighbors (direction, value) {
     this.neighbors[direction] = value;
   }
 
   // instead of creating a getter for each direction
-  getNeighbors(direction) {
+  getNeighbors (direction) {
     return this.neighbors[direction];
   }
 
-  setLink(cell, bidirectional = true) {
+  setLink (cell, bidirectional = true) {
     this.links[cell.id] = cell;
 
     if (bidirectional) {
-      cell.links[this.id] = this
+      cell.links[this.id] = this;
     }
     return this;
   }
 
-  delLink(cell, bidirectional = true) {
+  delLink (cell, bidirectional = true) {
     delete this.links[cell.id];
 
     if (bidirectional) {
@@ -50,7 +48,7 @@ class Cell {
   }
 
   getLinks () {
-    return Object.values(this.links)
+    return Object.values(this.links);
   }
 
   getLink (id) {
@@ -59,8 +57,8 @@ class Cell {
 
   isLinked (cell) {
     if (cell) {
-      if (this.links[cell.id] ) {
-        return this.links[cell.id]
+      if (this.links[cell.id]) {
+        return this.links[cell.id];
       } else {
         return false;
       }
@@ -70,12 +68,12 @@ class Cell {
   }
 
   setDistance (dis) {
-    this.distance = dis; 
+    this.distance = dis;
   }
 
-  neighbors() {
+  neighbors () {
     const list = [];
-    for(let direction in this.neighbors) {
+    for (let direction in this.neighbors) {
       if (this.neighbors.hasOwnProperty(direction)) {
         list.push(direction);
       }
