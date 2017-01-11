@@ -2,13 +2,12 @@ import React from 'react';
 import BinaryTree from '../binary-tree';
 
 class App extends React.Component {
-  render () {
+
+  render() {
     return (
       <div>
-        <BinaryTree player={this.props.player} playerMove={this.props.playerMove} />
+        <BinaryTree player={this.props.player} playerMove={this.props.playerMove}/>
       </div>
     );
   }
 }
-
-export default App;
