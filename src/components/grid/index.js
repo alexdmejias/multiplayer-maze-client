@@ -1,16 +1,16 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {HotKeys} from 'react-hotkeys';
+import classNames from 'classnames';
 
 import GridClass from '../../common/Grid';
+import algos from '../../common/algos';
 
 import Cell from '../cell';
 
 import './styles.css';
-import classNames from 'classnames';
 
-
-class BinaryTree extends Component {
-  constructor(props) {
+class Grid extends Component {
+  constructor (props) {
     super(props);
     this.state = {
       visitedCells: this.cellsToClasses(this.props.player.visitedCells),
@@ -25,47 +25,31 @@ class BinaryTree extends Component {
       'east': ['right', 'd']
     };
 
+    this.handlers = {
+      'north': () => { this.handleMove('north'); },
+      'south': () => { this.handleMove('south'); },
+      'east': () => { this.handleMove('east'); },
+      'west': () => { this.handleMove('west'); }
+    };
+
     const grid = new GridClass(10, 10);
 
     this.preparedGrid = this.prepareGrid(grid);
   }
 
-  cellsToClasses(arr) {
+  // COPIED
+  cellsToClasses (arr) {
     return arr.map((curr) => curr.join('-'));
   }
 
-  getLastItem(arr) {
+  // COPIED
+  getLastItem (arr) {
     return arr[arr.legth - 1];
   }
 
-  prepareGrid(grid) {
+  prepareGrid (grid) {
     const size = 50;
-    grid.eachRow().forEach((row, rowIndex) => {
-      row.forEach((cell, cellIndex) => {
-        let neighbors = [];
-
-        if (cell.neighbors.north) {
-          neighbors.push(cell.neighbors.north)
-        }
-
-        if (cell.neighbors.east) {
-          neighbors.push(cell.neighbors.east)
-        }
-
-        let index = Math.floor(Math.random() * neighbors.length);
-        let neighbor = neighbors[index];
-
-        if (neighbor) {
-          cell.setLink(neighbor);
-        }
-
-        cell.position = {
-          top: (cell.row * size),
-          left: (cell.column * size),
-        }
-
-      });
-    });
+    grid = algos.binary(grid, size);
 
     const distances = grid.getDistances(grid.getCell(9, 0));
 
@@ -78,14 +62,16 @@ class BinaryTree extends Component {
     return grid;
   }
 
-  componentWillReceiveProps(props) {
+  // COPIED
+  componentWillReceiveProps (props) {
     this.setState({
       visitedCells: this.cellsToClasses(props.player.visitedCells),
-      lastVisitedCells: props.player.lastVisitedCells 
+      lastVisitedCells: props.player.lastVisitedCells
     });
   }
 
-  componentDidMount() {
+  // COPIED
+  componentDidMount () {
     this.setState({
       showBorders: true
     });
@@ -93,7 +79,8 @@ class BinaryTree extends Component {
     this.props.playerMove([9, 0]);
   }
 
-  renderGrid() {
+  // COPIED
+  renderGrid () {
     const grid = this.preparedGrid;
     const elems = [];
 
@@ -106,20 +93,20 @@ class BinaryTree extends Component {
           'b-e': !cell.isLinked(cell.neighbors.east),
           'b-s': !cell.isLinked(cell.neighbors.south),
           'visited': this.state.visitedCells.indexOf(key) > -1,
-          'current': this.state.lastVisitedCells? this.state.lastVisitedCells.join('-') === key : ''
+          'current': this.state.lastVisitedCells ? this.state.lastVisitedCells.join('-') === key : ''
         };
 
-        elems.push( 
-          <Cell distance={cell.distance} key={key} classes={classNames('cell', neighborClasses)} styles={styleProps}/>
+        elems.push(
+          <Cell distance={cell.distance} key={key} classes={classNames('cell', neighborClasses)} styles={styleProps} />
         );
-
       });
     });
 
     return elems.map((curr) => curr);
   }
   
-  handleMove(direction) {
+  // COPIED
+  handleMove (direction) {
     const currPos = this.props.player.lastVisitedCells;
     const currCell = this.preparedGrid.grid[currPos[0]][currPos[1]];
     const possibleNeighbor = currCell.neighbors[direction];
@@ -128,25 +115,26 @@ class BinaryTree extends Component {
       this.props.playerMove([possibleNeighbor.row, possibleNeighbor.column]);
     }
 
-    console.log(this.props.player.lastVisitedCells)
+    console.log(this.props.player.lastVisitedCells);
   }
   
-  render() {
-    const handlers = {
-      'north': () => { this.handleMove('north')},
-      'south': () => { this.handleMove('south')},
-      'east' : () => { this.handleMove('east')},
-      'west' : () => { this.handleMove('west')}
-    };
-
+  render () {
     return (
-      <HotKeys keyMap={this.keyMap} handlers={handlers}>
+      <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
         <div className={classNames('maze', {'green': this.state.showBorders})}>
           { this.renderGrid() }
         </div>
       </HotKeys>
-    )
+    );
   }
 }
 
-export default BinaryTree;
+Grid.propTypes = {
+  player: PropTypes.shape({
+    lastVisitedCells: PropTypes.array,
+    visitedCells: PropTypes.array
+  }),
+  playerMove: PropTypes.func
+};
+
+export default Grid;
