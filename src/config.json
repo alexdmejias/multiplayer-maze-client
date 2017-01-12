@@ -1,0 +1,12 @@
+{
+  "keyMap": {
+    "north": ["up", "w"],
+    "south": ["down", "s"],
+    "west": ["left", "a"],
+    "east": ["right", "d"]
+  },
+  "grid": {
+    "width": 10,
+    "height": 10
+  }
+}

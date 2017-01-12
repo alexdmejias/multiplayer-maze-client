@@ -1,7 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import {HotKeys} from 'react-hotkeys';
 import classNames from 'classnames';
+import {isEqual} from 'lodash';
 
+import config from '../../config';
 import GridClass from '../../common/Grid';
 import algos from '../../common/algos';
 
@@ -15,15 +17,11 @@ class Grid extends Component {
     this.state = {
       visitedCells: this.cellsToClasses(this.props.player.visitedCells),
       lastVisitedCells: this.props.player.lastVisitedCells,
-      finish: '0-9'
+      finish: [0, 9],
+      start: [9, 0]
     };
 
-    this.keyMap = {
-      'north': ['up', 'w'],
-      'south': ['down', 's'],
-      'west': ['left', 'a'],
-      'east': ['right', 'd']
-    };
+    this.keyMap = config.keyMap;
 
     this.handlers = {
       'north': () => { this.handleMove('north'); },
@@ -32,19 +30,29 @@ class Grid extends Component {
       'west': () => { this.handleMove('west'); }
     };
 
-    const grid = new GridClass(10, 10);
+    const grid = new GridClass(config.grid.width, config.grid.height);
 
     this.preparedGrid = this.prepareGrid(grid);
   }
 
-  // COPIED
   cellsToClasses (arr) {
     return arr.map((curr) => curr.join('-'));
   }
 
-  // COPIED
   getLastItem (arr) {
     return arr[arr.legth - 1];
+  }
+
+  /**
+   * Compares the positions (row, column) of cells A and B
+   *
+   * @param {any} cellA Cell
+   * @param {any} cellB Cell
+   *
+   * @memberOf Grid
+   */
+  compareCellPositions (cellA, cellB) {
+    return cellA.row === cellB.row && cellA.column === cellB.column;
   }
 
   prepareGrid (grid) {
@@ -54,15 +62,14 @@ class Grid extends Component {
     const distances = grid.getDistances(grid.getCell(9, 0));
 
     for (let d in distances.cells) {
-      const p = d.split('-');
-      const cell = grid.getCell(...p);
+      const position = d.split('-');
+      const cell = grid.getCell(...position);
       cell.setDistance(distances.cells[d]);
     }
 
     return grid;
   }
 
-  // COPIED
   componentWillReceiveProps (props) {
     this.setState({
       visitedCells: this.cellsToClasses(props.player.visitedCells),
@@ -70,7 +77,6 @@ class Grid extends Component {
     });
   }
 
-  // COPIED
   componentDidMount () {
     this.setState({
       showBorders: true
@@ -79,7 +85,6 @@ class Grid extends Component {
     this.props.playerMove([9, 0]);
   }
 
-  // COPIED
   renderGrid () {
     const grid = this.preparedGrid;
     const elems = [];
@@ -88,12 +93,14 @@ class Grid extends Component {
       row.forEach((cell, cellIndex) => {
         const key = cell.id;
         const styleProps = cell.position;
+        const currentCell = this.state.lastVisitedCells;
 
         const neighborClasses = {
           'b-e': !cell.isLinked(cell.neighbors.east),
           'b-s': !cell.isLinked(cell.neighbors.south),
           'visited': this.state.visitedCells.indexOf(key) > -1,
-          'current': this.state.lastVisitedCells ? this.state.lastVisitedCells.join('-') === key : ''
+          'current': currentCell ? currentCell.join('-') === key : '',
+          'finish': isEqual(this.state.finish.join('-'), key)
         };
 
         elems.push(
@@ -104,20 +111,22 @@ class Grid extends Component {
 
     return elems.map((curr) => curr);
   }
-  
-  // COPIED
+
   handleMove (direction) {
     const currPos = this.props.player.lastVisitedCells;
     const currCell = this.preparedGrid.grid[currPos[0]][currPos[1]];
     const possibleNeighbor = currCell.neighbors[direction];
 
+    // can the player go to the the linked cell?
     if (possibleNeighbor && currCell.isLinked(possibleNeighbor)) {
       this.props.playerMove([possibleNeighbor.row, possibleNeighbor.column]);
-    }
 
-    console.log(this.props.player.lastVisitedCells);
+      if (isEqual(this.state.finish, [possibleNeighbor.row, possibleNeighbor.column])) {
+        console.log('you are at the finish line');
+      }
+    }
   }
-  
+
   render () {
     return (
       <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
