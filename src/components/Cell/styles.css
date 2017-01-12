@@ -1,0 +1,24 @@
+.cell {
+  position: absolute;
+  width: var(--cell-size);
+  height: var(--cell-size);
+  box-sizing: border-box;
+  background: #999;
+  transition: background 250ms;
+}
+
+.cell.visited {
+  background: #888;
+}
+
+.cell.current {
+  background: red;
+}
+
+.cell small {
+  font-size: 8px;
+  position: absolute;
+}
+
+.b-e { border-right: 1px solid black; }
+.b-s { border-bottom: 1px solid black; }

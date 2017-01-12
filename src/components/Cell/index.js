@@ -1,5 +1,7 @@
 import React from 'react';
 
+import './styles.css';
+
 const Cell = (props) => {
   return (
     <div style={props.styles} className={props.classes}>
