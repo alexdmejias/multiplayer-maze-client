@@ -11,6 +11,10 @@
   background: #888;
 }
 
+.cell.finish {
+  background: yellow;
+}
+
 .cell.current {
   background: red;
 }
