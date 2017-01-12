@@ -1,5 +1,5 @@
 class Distance {
-  constructor(rootId) {
+  constructor (rootId) {
     this.cells = {};
   }
 
@@ -13,7 +13,7 @@ class Distance {
     }
   }
 
-  getKeys() {
+  getKeys () {
     return Object.keys(this.cells);
   }
 
