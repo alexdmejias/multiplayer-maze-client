@@ -82,7 +82,7 @@ class Grid extends Component {
       showBorders: true
     });
 
-    this.props.playerMove([9, 0]);
+    this.props.playerMoved([9, 0]);
   }
 
   renderGrid () {
@@ -119,7 +119,7 @@ class Grid extends Component {
 
     // can the player go to the the linked cell?
     if (possibleNeighbor && currCell.isLinked(possibleNeighbor)) {
-      this.props.playerMove([possibleNeighbor.row, possibleNeighbor.column]);
+      this.props.playerMoved([possibleNeighbor.row, possibleNeighbor.column]);
 
       if (isEqual(this.state.finish, [possibleNeighbor.row, possibleNeighbor.column])) {
         console.log('you are at the finish line');
@@ -144,7 +144,7 @@ Grid.propTypes = {
     lastVisitedCells: PropTypes.array,
     visitedCells: PropTypes.array
   }),
-  playerMove: PropTypes.func,
+  playerMoved: PropTypes.func,
   playerFinished: PropTypes.func
 };
 
