@@ -6,17 +6,21 @@ const initialState = {
 
 export default function player (state = initialState, action) {
   switch (action.type) {
-    
+
     case types.PLAYER_MOVED:
       return {
         ...state,
         visitedCells: state.visitedCells.concat([action.newPos]),
         lastVisitedCells: action.newPos
-      }
-    
+      };
+
+    case types.PLAYER_FINISHED:
+      return {
+        ...state,
+        hasFinished: true
+      };
+
     default:
       return state;
   }
 }
-
-

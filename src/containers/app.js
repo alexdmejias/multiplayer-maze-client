@@ -14,6 +14,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     playerMove: (newPos) => {
       dispatch(actions.playerMoved(newPos));
+    },
+    playerFinished: () => {
+      dispatch(actions.playerFinished());
     }
   };
 };

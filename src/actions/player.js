@@ -6,3 +6,9 @@ export const playerMoved = function(newPos) {
     newPos
   }
 }
+
+export const playerFinished = () => {
+  return {
+    type: types.PLAYER_FINISHED
+  };
+};
