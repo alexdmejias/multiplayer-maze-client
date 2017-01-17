@@ -1,9 +1,0 @@
-[ignore]
-/Users/johstewa/Development/redux-socketio-test/node_modules/fbjs/.*
-
-[include]
-src
-
-[libs]
-
-[options]
