@@ -7,7 +7,7 @@ import config from '../../config';
 import GridClass from '../../common/Grid';
 import algos from '../../common/algos';
 
-import Cell from '../cell';
+import Cell from '../Cell';
 
 import './styles.css';
 

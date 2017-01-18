@@ -1,5 +1,5 @@
 import React from 'react';
-import Grid from '../grid';
+import Grid from '../Grid';
 
 class App extends React.Component {
   render () {
