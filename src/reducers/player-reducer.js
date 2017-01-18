@@ -14,10 +14,10 @@ export default function player (state = initialState, action) {
         lastVisitedCells: action.newPos
       };
 
-    case types.PLAYER_FINISHED:
+    case types.PLAYER_SCORED:
       return {
         ...state,
-        hasFinished: true
+        hasScored: true
       };
 
     default:

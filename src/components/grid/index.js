@@ -123,7 +123,7 @@ class Grid extends Component {
 
       if (isEqual(this.state.finish, [possibleNeighbor.row, possibleNeighbor.column])) {
         console.log('you are at the finish line');
-        this.props.playerFinished();
+        this.props.playerScored();
       }
     }
   }
@@ -145,7 +145,7 @@ Grid.propTypes = {
     visitedCells: PropTypes.array
   }),
   playerMoved: PropTypes.func,
-  playerFinished: PropTypes.func
+  playerScored: PropTypes.func
 };
 
 export default Grid;

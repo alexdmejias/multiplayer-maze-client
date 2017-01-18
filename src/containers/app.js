@@ -12,11 +12,14 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    socketConnect: () => {
+      dispatch({type: 'SOCKET_CONNECT'});
+    },
     playerMoved: (newPos) => {
       dispatch(actions.playerMoved(newPos));
     },
-    playerFinished: () => {
-      dispatch(actions.playerFinished());
+    playerScored: () => {
+      dispatch(actions.playerScored());
     }
   };
 };

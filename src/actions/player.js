@@ -7,8 +7,9 @@ export const playerMoved = (newPos) => {
   };
 };
 
-export const playerFinished = () => {
+export const playerScored = () => {
   return {
-    type: types.PLAYER_FINISHED
+    type: types.PLAYER_SCORED,
+    socketEvent: 'playerScored'
   };
 };

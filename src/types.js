@@ -1,4 +1,4 @@
 export const PLAYER_MOVED = 'PLAYER_MOVED';
-export const PLAYER_FINISHED = 'PLAYER_FINISHED';
+export const PLAYER_SCORED = 'PLAYER_SCORED';
 
 export const SESSION_STARTED = 'SESSION_STARTED';
