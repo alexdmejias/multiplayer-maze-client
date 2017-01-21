@@ -1,6 +1,10 @@
 {
   "name": "multiplayer-maze-client",
   "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:alexdmejias/multiplayer-maze-client.git"
+  },
   "private": false,
   "homepage": "https://alexdmejias.github.io/multiplayer-maze-client",
   "devDependencies": {
