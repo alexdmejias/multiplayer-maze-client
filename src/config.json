@@ -1,4 +1,7 @@
 {
+  "socket": {
+    "connect": true
+  },
   "keyMap": {
     "north": ["up", "w"],
     "south": ["down", "s"],

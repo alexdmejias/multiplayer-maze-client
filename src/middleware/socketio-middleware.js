@@ -1,11 +1,14 @@
 import io from 'socket.io-client';
+import config from '../config.json';
 
 const socketMiddleware = (socket) => {
   function _socketConnect () {
     console.log('socketio connection established');
 
-    socket = io.connect('http://localhost:3005');
-    _registerCallbacks();
+    if (config.socket.connect) {
+      socket = io.connect('http://localhost:3005');
+      _registerCallbacks();
+    }
   }
 
   function _registerCallbacks () {
