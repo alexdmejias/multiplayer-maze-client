@@ -1,5 +1,5 @@
 export default (grid, size) => {
-  grid.eachRow().forEach((row, rowIndex) => {
+  grid.grid.forEach((row, rowIndex) => {
     row.forEach((cell, cellIndex) => {
       let neighbors = [];
 

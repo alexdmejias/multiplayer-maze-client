@@ -54,9 +54,9 @@ class Grid {
     return this.rows * this.columns;
   }
 
-  eachRow () {
-    return this.grid;
-  }
+  // eachRow () {
+  //   return this.grid;
+  // }
 
   eachCell () {
     return this.grid.reduce((prev, curr, currIndex) => {
@@ -72,7 +72,7 @@ class Grid {
 
     while (frontier.length > 0) {
       const newFrontier = [];
-      
+
       frontier.forEach((currCell) => {
         currCell.getLinksIds().forEach((currLink) => {
           if (!distances.get(currLink)) {

@@ -89,7 +89,7 @@ class Grid extends Component {
     const grid = this.preparedGrid;
     const elems = [];
 
-    grid.eachRow().forEach((row, rowIndex) => {
+    grid.grid.forEach((row, rowIndex) => {
       row.forEach((cell, cellIndex) => {
         const key = cell.id;
         const styleProps = cell.position;
