@@ -4,8 +4,6 @@ import classNames from 'classnames';
 import {isEqual} from 'lodash';
 
 import config from '../../config';
-import GridClass from '../../common/Grid';
-import algos from '../../common/algos';
 
 import Cell from '../Cell';
 
@@ -18,8 +16,11 @@ class Grid extends Component {
       visitedCells: this.cellsToClasses(this.props.player.visitedCells),
       lastVisitedCells: this.props.player.lastVisitedCells,
       finish: [0, 9],
-      start: [9, 0]
+      start: [9, 0],
+      sampleMaze: '3333333331|6566655662|6666556652|5655566662|6655556652|5565666552|5566566652|6566656662|5655566652|6556566662|'
     };
+
+    this.links = {};
 
     this.keyMap = config.keyMap;
 
@@ -30,11 +31,19 @@ class Grid extends Component {
       'west': () => { this.handleMove('west'); }
     };
 
-    const grid = new GridClass(config.grid.width, config.grid.height);
-
-    this.preparedGrid = this.prepareGrid(grid);
+    this.preparedGrid = this.createGrid(this.state.sampleMaze);
+    this.setupGridNeighbors(this.preparedGrid);
+    this.setupGridLinks(this.preparedGrid);
   }
 
+  /**
+   *
+   *
+   * @param {any} arr
+   * @returns
+   *
+   * @memberOf Grid
+   */
   cellsToClasses (arr) {
     return arr.map((curr) => curr.join('-'));
   }
@@ -55,19 +64,145 @@ class Grid extends Component {
     return cellA.row === cellB.row && cellA.column === cellB.column;
   }
 
-  prepareGrid (grid) {
-    const size = 50;
-    grid = algos.binary(grid, size);
+  /**
+   *
+   *
+   * @param {any} row
+   * @param {any} column
+   * @returns
+   *
+   * @memberOf Grid
+   */
+  getId (row, column) {
+    return `${row}-${column}`;
+  }
 
-    const distances = grid.getDistances(grid.getCell(9, 0));
-
-    for (let d in distances.cells) {
-      const position = d.split('-');
-      const cell = grid.getCell(...position);
-      cell.setDistance(distances.cells[d]);
+  /**
+   * Determines whether there is a link between the two given Cells
+   *
+   * @param {any} fromCell
+   * @param {any} toCellId
+   * @returns
+   *
+   * @memberOf Grid
+   */
+  isLink (fromCell, toCellId) {
+    let cell;
+    if (typeof fromCell === 'string') {
+      cell = this.getCell(fromCell);
+    } else {
+      cell = fromCell;
     }
 
+    return cell.links[toCellId];
+  }
+
+  /**
+   *
+   *
+   * @param {any} cellId
+   * @returns
+   *
+   * @memberOf Grid
+   */
+  getCell (cellId) {
+    let parts = cellId;
+
+    if (typeof cellId === 'string') {
+      parts = cellId.split('-');
+    }
+    return this.preparedGrid[parts[0]][parts[1]];
+  }
+
+  /**
+   *
+   *
+   * @param {any} fromCell
+   * @param {any} direction
+   * @returns
+   *
+   * @memberOf Grid
+   */
+  isNeighbor (fromCell, direction) {
+    const cell = this.getCell(fromCell);
+    return cell.neighbors[direction];
+  }
+
+  createGrid (connectionTypes) {
+    const grid = [];
+    const wasd = connectionTypes.split('|');
+    wasd.pop(); // removes the last '|'
+    wasd.forEach((curr, rowIndex) => {
+      const row = [];
+      const currConnectionTypes = curr.split('');
+      currConnectionTypes.forEach((currA, columnIndex) => {
+        const cell = {
+          id: `${rowIndex}-${columnIndex}`,
+          rowIndex,
+          columnIndex,
+          position: {
+            top: rowIndex * 50,
+            left: columnIndex * 50
+          },
+          connectionTypes: currA,
+          links: {}
+        };
+
+        row.push(cell);
+      });
+      grid.push(row);
+    });
+
     return grid;
+  }
+
+  setupGridNeighbors (grid) {
+    grid.forEach((row, rowIndex) => {
+      row.forEach((cell, columnIndex) => {
+        cell.neighbors = {};
+
+        if (grid[rowIndex - 1]) {
+          cell.neighbors.north = grid[rowIndex - 1][columnIndex];
+        }
+
+        if (grid[rowIndex + 1]) {
+          cell.neighbors.south = grid[rowIndex + 1][columnIndex];
+        }
+
+        if (grid[rowIndex][columnIndex + 1]) {
+          cell.neighbors.east = grid[rowIndex][columnIndex + 1];
+        }
+
+        if (grid[rowIndex][columnIndex - 1]) {
+          cell.neighbors.west = grid[rowIndex][columnIndex - 1];
+        }
+      });
+    });
+  }
+
+  setupGridLinks (grid) {
+    grid.forEach((row, rowIndex) => {
+      row.forEach((currentCell, columnIndex) => {
+        // 1 no link no neighbor
+        // 2 link to north
+        // 3 link to east
+        // 5 link to north neighbor to east
+        // 6 link to east neighbor north
+        const neighborLinkType = parseInt(currentCell.connectionTypes);
+
+        let neighborCell;
+        if (neighborLinkType === 2 || neighborLinkType === 5) {
+          neighborCell = grid[rowIndex - 1][columnIndex];
+        } else if (neighborLinkType === 3 || neighborLinkType === 6) {
+          neighborCell = grid[rowIndex][columnIndex + 1];
+        }
+
+        if (neighborCell) {
+          currentCell.links[neighborCell.id] = neighborCell;
+          neighborCell.links[currentCell.id] = currentCell;
+        }
+      });
+    });
   }
 
   componentWillReceiveProps (props) {
@@ -86,25 +221,21 @@ class Grid extends Component {
   }
 
   renderGrid () {
-    const grid = this.preparedGrid;
     const elems = [];
 
-    grid.grid.forEach((row, rowIndex) => {
-      row.forEach((cell, cellIndex) => {
-        const key = cell.id;
-        const styleProps = cell.position;
+    this.preparedGrid.forEach((row, rowIndex) => {
+      row.forEach((cell, columnIndex) => {
         const currentCell = this.state.lastVisitedCells;
-
         const neighborClasses = {
-          'b-e': !cell.isLinked(cell.neighbors.east),
-          'b-s': !cell.isLinked(cell.neighbors.south),
-          'visited': this.state.visitedCells.indexOf(key) > -1,
-          'current': currentCell ? currentCell.join('-') === key : '',
-          'finish': isEqual(this.state.finish.join('-'), key)
+          'b-e': cell.neighbors.east ? !this.isLink(cell, cell.neighbors.east.id) : false,
+          'b-s': cell.neighbors.south ? !this.isLink(cell, cell.neighbors.south.id) : false,
+          'visited': this.state.visitedCells.indexOf(cell.id) > -1,
+          'current': currentCell ? currentCell.join('-') === cell.id : '',
+          'finish': isEqual(this.state.finish.join('-'), cell.id)
         };
 
         elems.push(
-          <Cell distance={cell.distance} key={key} classes={classNames('cell', neighborClasses)} styles={styleProps} />
+          <Cell distance={cell.connectionTypes} key={cell.id} classes={classNames('cell', neighborClasses)} styles={cell.position} />
         );
       });
     });
@@ -114,14 +245,12 @@ class Grid extends Component {
 
   handleMove (direction) {
     const currPos = this.props.player.lastVisitedCells;
-    const currCell = this.preparedGrid.grid[currPos[0]][currPos[1]];
-    const possibleNeighbor = currCell.neighbors[direction];
+    const possibleNeighbor = this.isNeighbor(currPos, direction);
 
-    // can the player go to the the linked cell?
-    if (possibleNeighbor && currCell.isLinked(possibleNeighbor)) {
-      this.props.playerMoved([possibleNeighbor.row, possibleNeighbor.column]);
-
-      if (isEqual(this.state.finish, [possibleNeighbor.row, possibleNeighbor.column])) {
+    // // can the player go to the the linked cell?
+    if (possibleNeighbor && this.isLink(this.getId(...currPos), possibleNeighbor.id)) {
+      this.props.playerMoved([possibleNeighbor.rowIndex, possibleNeighbor.columnIndex]);
+      if (isEqual(this.state.finish, [possibleNeighbor.rowIndex, possibleNeighbor.columnIndex])) {
         console.log('you are at the finish line');
         this.props.playerScored();
       }
