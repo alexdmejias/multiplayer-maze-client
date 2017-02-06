@@ -1,7 +1,10 @@
 import io from 'socket.io-client';
 import config from '../config.json';
+import * as sessionsActions from '../actions/session';
 
-const socketMiddleware = (socket) => {
+const socketMiddleware = (store) => {
+  let socket;
+
   function _socketConnect () {
     console.log('socketio connection established');
 
@@ -20,7 +23,16 @@ const socketMiddleware = (socket) => {
   }
 
   const eventsToListenTo = {
-    'connection': () => { console.log('another player connected'); }
+    'connection': () => { console.log('another player connected'); },
+    'mazeArrival': (data) => {
+      if (data.secret) {
+        console.log('mazeArrival secondary', data);
+        store.dispatch(sessionsActions.mazeArrival(data, true));
+      } else {
+        console.log('mazeArrival', data);
+        store.dispatch(sessionsActions.mazeArrival(data));
+      }
+    }
   };
 
   return (next) => (action) => {

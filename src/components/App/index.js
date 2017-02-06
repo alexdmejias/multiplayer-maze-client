@@ -5,7 +5,7 @@ class App extends React.Component {
   componentDidMount () {
     this.props.socketConnect();
   }
-  
+
   render () {
     return (
       <div>
