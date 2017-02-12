@@ -10,6 +10,7 @@ const socketMiddleware = (store) => {
 
     if (config.socket.connect) {
       socket = io.connect('http://localhost:3005');
+      socket.on = _overWriteTX();
       _registerCallbacks();
     }
   }
@@ -22,14 +23,25 @@ const socketMiddleware = (store) => {
     }
   }
 
+  function _overWriteTX () {
+    const oldOn = socket.on;
+    return function (name, callback) {
+      const _callback = (args) => {
+        console.log('%cRX: ' + name, 'color: green; font-weight: bold', args || '');
+        if (callback) {
+          callback(args);
+        }
+      };
+      return oldOn.call(this, name, _callback);
+    };
+  }
+
   const eventsToListenTo = {
     'connection': () => { console.log('another player connected'); },
     'mazeArrival': (data) => {
       if (data.secret) {
-        console.log('mazeArrival secondary', data);
         store.dispatch(sessionsActions.mazeArrival(data, true));
       } else {
-        console.log('mazeArrival', data);
         store.dispatch(sessionsActions.mazeArrival(data));
       }
     }
