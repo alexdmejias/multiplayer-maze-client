@@ -16,7 +16,8 @@ class Grid extends Component {
       visitedCells: this.cellsToClasses(this.props.player.visitedCells),
       lastVisitedCells: this.props.player.lastVisitedCells,
       finish: [0, 9],
-      start: [9, 0]
+      start: [9, 0],
+      mazeLength: 500
     };
 
     this.links = {};
@@ -214,13 +215,9 @@ class Grid extends Component {
   }
 
   componentWillReceiveProps (props) {
-    this.setState({
-      visitedCells: this.cellsToClasses(props.player.visitedCells),
-      lastVisitedCells: props.player.lastVisitedCells
-    });
-
+    let mazeLength;
     if (props.session.maze) {
-      const mazeLength = props.session.maze.indexOf('|');
+      mazeLength = props.session.maze.indexOf('|');
       this.preparedGrid = this.createGrid(mazeLength, mazeLength);
       this.setupGridNeighbors(this.preparedGrid);
 
@@ -228,6 +225,12 @@ class Grid extends Component {
         this.setupGridLinks(this.preparedGrid, props.session.maze);
       }
     }
+
+    this.setState({
+      visitedCells: this.cellsToClasses(props.player.visitedCells),
+      lastVisitedCells: props.player.lastVisitedCells,
+      mazeLength
+    });
   }
 
   componentDidMount () {
@@ -278,9 +281,10 @@ class Grid extends Component {
   }
 
   render () {
+    const size = this.state.mazeLength * this.state.mazeLength;
     return (
       <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
-        <div className={classNames('maze', {'green': this.state.showBorders})}>
+        <div style={{width: size, height: size}} className={classNames('maze', {'green': this.state.showBorders})}>
           { this.renderGrid() }
         </div>
       </HotKeys>
