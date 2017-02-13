@@ -1,8 +1,11 @@
 .maze {
   --border-width: 1px;
   --cell-size: 50px;
+  /*--maze-size: 5;*/
   position: absolute;
   background: #999;
+  /*width: calc(var(--cell-size) * var(--maze-size));*/
+  /*height: calc(var(--cell-size) * var(--maze-size));*/
   transition: background 1s;
 }
 

@@ -4,7 +4,8 @@
   height: var(--cell-size);
   box-sizing: border-box;
   background: #999;
-  transition: background 250ms;
+  transition: background 250ms, border-color 250ms;
+  border: 1px solid #999;
 }
 
 .cell.visited {
@@ -24,5 +25,5 @@
   position: absolute;
 }
 
-.b-e { border-right: 1px solid black; }
-.b-s { border-bottom: 1px solid black; }
+.b-e { border-right-color: black; }
+.b-s { border-bottom-color: black; }
