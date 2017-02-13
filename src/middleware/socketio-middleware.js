@@ -44,7 +44,12 @@ const socketMiddleware = (store) => {
       } else {
         store.dispatch(sessionsActions.mazeArrival(data));
       }
-    }
+    },
+    'stateintermission': () => {},
+    'statestarting': () => {},
+    'statestarted': () => {},
+    'statefinishing': () => {},
+    'statefinished': () => {}
   };
 
   return (next) => (action) => {
