@@ -1,4 +1,11 @@
-.maze {
+.grid-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.grid {
   --border-width: 1px;
   --cell-size: 50px;
   /*--maze-size: 5;*/
@@ -9,6 +16,6 @@
   transition: background 1s;
 }
 
-.maze.green {
+.grid.green {
   background: green;
 }

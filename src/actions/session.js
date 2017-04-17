@@ -7,3 +7,10 @@ export const mazeArrival = (data, secret) => {
     secret
   };
 };
+
+export const connectionStatus = (status) => {
+  return {
+    type: types.SESSION_CONNECTION_STATUS,
+    status
+  };
+};

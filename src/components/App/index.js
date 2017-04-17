@@ -1,6 +1,11 @@
 import React from 'react';
 import Grid from '../Grid';
 
+import StatusBar from '../StatusBar';
+import PlayerList from '../PlayerList';
+
+import './styles.css';
+
 class App extends React.Component {
   componentDidMount () {
     this.props.socketConnect();
@@ -8,7 +13,9 @@ class App extends React.Component {
 
   render () {
     return (
-      <div>
+      <div className='grid-container'>
+        <StatusBar {...this.props} />
+        <PlayerList />
         <Grid {...this.props} />
       </div>
     );

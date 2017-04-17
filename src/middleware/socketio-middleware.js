@@ -6,7 +6,7 @@ const socketMiddleware = (store) => {
   let socket;
 
   function _socketConnect () {
-    console.log('socketio connection established');
+    console.log('attempting to connect to socket server...');
 
     if (config.socket.connect) {
       socket = io.connect('http://localhost:3005');
@@ -37,7 +37,14 @@ const socketMiddleware = (store) => {
   }
 
   const eventsToListenTo = {
-    'connection': () => { console.log('another player connected'); },
+    'connect': () => {
+      store.dispatch(sessionsActions.connectionStatus('connected'));
+    },
+    'disconnect': () => {
+      store.dispatch(sessionsActions.connectionStatus('disconnected'));
+    },
+    'connection': () => {
+    },
     'mazeArrival': (data) => {
       if (data.secret) {
         store.dispatch(sessionsActions.mazeArrival(data, true));

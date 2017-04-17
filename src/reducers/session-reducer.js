@@ -4,7 +4,8 @@ const initState = {
   winningId: '0-9',
   // sampleMaze: '3333333331|5555556662|6655556562|6566566562|5556666652|6565656562|6666666662|5565655562|5655656562|5555566552|'
   maze: '',
-  mazeComplete: false
+  mazeComplete: false,
+  status: 'disconnected'
 };
 
 export default function session (state = initState, action) {
@@ -21,12 +22,19 @@ export default function session (state = initState, action) {
       } else {
         maze = action.maze;
       }
-
       return {
         ...state,
         mazeComplete,
         maze
       };
+
+    case types.SESSION_CONNECTION_STATUS:
+      console.info(action);
+      return {
+        ...state,
+        status: action.status
+      };
+      
     default:
       return state;
   }

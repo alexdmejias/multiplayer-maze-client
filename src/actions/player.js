@@ -10,6 +10,6 @@ export const playerMoved = (newPos) => {
 export const playerScored = () => {
   return {
     type: types.PLAYER_SCORED,
-    socketEvent: 'playerScored'
+    socketEvent: 'player:scored'
   };
 };

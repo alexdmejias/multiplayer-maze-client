@@ -17,7 +17,8 @@ class Grid extends Component {
       lastVisitedCells: this.props.player.lastVisitedCells,
       finish: [0, 9],
       start: [9, 0],
-      mazeLength: 500
+      mazeLength: 10,
+      cellLength: 50
     };
 
     this.links = {};
@@ -281,10 +282,11 @@ class Grid extends Component {
   }
 
   render () {
-    const size = this.state.mazeLength * this.state.mazeLength;
+    const size = this.state.mazeLength * this.state.cellLength;
+    console.log('wasdwasd', size);
     return (
-      <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
-        <div style={{width: size, height: size}} className={classNames('maze', {'green': this.state.showBorders})}>
+      <HotKeys keyMap={this.keyMap} handlers={this.handlers} className='grid-wrapper'>
+        <div style={{width: size, height: size}} className={classNames('grid', {'green': this.state.showBorders})}>
           { this.renderGrid() }
         </div>
       </HotKeys>
