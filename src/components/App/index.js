@@ -3,6 +3,7 @@ import Grid from '../Grid';
 
 import StatusBar from '../StatusBar';
 import PlayerList from '../PlayerList';
+import DevTools from '../../containers/devtools';
 
 import './styles.css';
 
@@ -15,6 +16,7 @@ class App extends React.Component {
     return (
       <div className='grid-container'>
         <StatusBar {...this.props} />
+        <DevTools />
         <PlayerList />
         <Grid {...this.props} />
       </div>

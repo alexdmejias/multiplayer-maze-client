@@ -1,0 +1,4 @@
+- enable local dev mode.
+    - generate mazes
+    - change round
+    - change game state

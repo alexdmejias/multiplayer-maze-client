@@ -14,3 +14,11 @@ export const connectionStatus = (status) => {
     status
   };
 };
+
+export const stateChange = (state, devMode) => {
+  return {
+    type: types.SESSION_STATE_CHANGE,
+    devMode,
+    state
+  };
+};

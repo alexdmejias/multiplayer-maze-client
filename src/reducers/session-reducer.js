@@ -5,7 +5,8 @@ const initState = {
   // sampleMaze: '3333333331|5555556662|6655556562|6566566562|5556666652|6565656562|6666666662|5565655562|5655656562|5555566552|'
   maze: '',
   mazeComplete: false,
-  status: 'disconnected'
+  status: 'disconnected',
+  state: 'intermission'
 };
 
 export default function session (state = initState, action) {
@@ -34,7 +35,13 @@ export default function session (state = initState, action) {
         ...state,
         status: action.status
       };
-      
+
+    case types.SESSION_STATE_CHANGE:
+      return {
+        ...state,
+        state: action.state
+      };
+
     default:
       return state;
   }

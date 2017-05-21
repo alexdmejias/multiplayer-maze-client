@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {HotKeys} from 'react-hotkeys';
 import classNames from 'classnames';
 import {isEqual} from 'lodash';
@@ -283,7 +284,6 @@ class Grid extends Component {
 
   render () {
     const size = this.state.mazeLength * this.state.cellLength;
-    console.log('wasdwasd', size);
     return (
       <HotKeys keyMap={this.keyMap} handlers={this.handlers} className='grid-wrapper'>
         <div style={{width: size, height: size}} className={classNames('grid', {'green': this.state.showBorders})}>

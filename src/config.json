@@ -1,6 +1,6 @@
 {
   "socket": {
-    "connect": true
+    "connect": false
   },
   "keyMap": {
     "north": ["up", "w"],

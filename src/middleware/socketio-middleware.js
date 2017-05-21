@@ -6,12 +6,13 @@ const socketMiddleware = (store) => {
   let socket;
 
   function _socketConnect () {
-    console.log('attempting to connect to socket server...');
-
     if (config.socket.connect) {
+      console.log('attempting to connect to socket server...');
       socket = io.connect('http://localhost:3005');
       socket.on = _overWriteTX();
       _registerCallbacks();
+    } else {
+      console.log('running in offline mode, will not attempt to connect to server');
     }
   }
 
@@ -36,6 +37,10 @@ const socketMiddleware = (store) => {
     };
   }
 
+//   function handleStateChange (data) {
+//       console.log()
+//   }
+
   const eventsToListenTo = {
     'connect': () => {
       store.dispatch(sessionsActions.connectionStatus('connected'));
@@ -52,11 +57,21 @@ const socketMiddleware = (store) => {
         store.dispatch(sessionsActions.mazeArrival(data));
       }
     },
-    'stateintermission': () => {},
-    'statestarting': () => {},
-    'statestarted': () => {},
-    'statefinishing': () => {},
-    'statefinished': () => {}
+    'stateintermission': (data) => {
+      store.dispatch(sessionsActions.stateChange('intermission'));
+    },
+    'statestarting': () => {
+      store.dispatch(sessionsActions.stateChange('starting'));
+    },
+    'statestarted': () => {
+      store.dispatch(sessionsActions.stateChange('started'));
+    },
+    'statefinishing': () => {
+      store.dispatch(sessionsActions.stateChange('finishing'));
+    },
+    'statefinished': () => {
+      store.dispatch(sessionsActions.stateChange('finished'));
+    }
   };
 
   return (next) => (action) => {
