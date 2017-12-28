@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import className from 'classnames';
 
 import GameStates from './GameStates';
 
@@ -15,6 +17,7 @@ class DevTools extends React.Component {
 
     this.toggleDevTools = this.toggleDevTools.bind(this);
     this.transitionTo = this.transitionTo.bind(this);
+    this.setHeartBeat = this.setHeartBeat.bind(this);
   }
 
   toggleDevTools () {
@@ -23,39 +26,38 @@ class DevTools extends React.Component {
     });
   }
 
-  transitionTo (state) {
-    console.log(this.props);
-    const currState = this.props.session.state;
-    const currStateIndex = this.state.possibleStates.indexOf(currState);
-    const numOfPossibleStates = this.state.possibleStates.length;
-    console.log('wasd');
-    let nextStateIndex = currStateIndex + 1;
+  transitionTo (desiredState) {
+    const {possibleStates} = this.state;
+    let nextState;
 
-    const timer = setInterval(() => {
-      console.log(nextStateIndex, this.state.possibleStates.length - 1);
-      if (nextStateIndex > this.state.possibleStates.length - 1) {
-        nextStateIndex = 0;
+    let timer = setInterval(() => {
+      let currState = this.props.session.state;
+      let currStateIndex = possibleStates.indexOf(currState);
+      nextState = currStateIndex === possibleStates.length ? possibleStates[0] : possibleStates[currStateIndex + 1];
+
+      if (this.props.session.state !== desiredState) {
+        console.log('if', this.props.session.state, desiredState);
+        this.props.transitionTo(nextState);
       } else {
-        nextStateIndex += 1;
-      }
-
-      console.log(nextStateIndex);
-      if (this.state.possibleStates[nextStateIndex] === currState) {
+        console.log('else', this.props.session.state);
         clearInterval(timer);
-        this.props.transitionTo(this.state.possibleStates[nextStateIndex]);
-      } else {
-        this.props.transitionTo(this.state.possibleStates[nextStateIndex]);
-        console.log('nope', nextStateIndex, currStateIndex);
       }
-    }, 500);
-
+    }, 1000);
   }
 
-  _renderDevTools () {
+  setHeartBeat (state) {
+    this.props.setHeartBeat(state);
+  }
+
+  _renderDevToolsControls () {
     return (
-      <div>
-        <p>I'm the DevTools component from Dev</p>
-        <GameStates transitionTo={this.transitionTo} possibleStates={this.state.possibleStates} />
+      <div className='controls'>
+        <GameStates transitionTo={this.transitionTo} possibleStates={this.state.possibleStates} currentState={this.props.session.state} />
+        <hr />
+        <div className='controls-group'>
+          <div className={className('button', {'active': this.props.session.heartbeat})} onClick={() => this.setHeartBeat(true)}>Heartbeat: on</div>
+          <div className={className('button', {'active': !this.props.session.heartbeat})} onClick={() => this.setHeartBeat(false)}>Heartbeat: off</div>
+        </div>
       </div>
     );
   }
@@ -64,10 +66,16 @@ class DevTools extends React.Component {
     return (
       <div className={`devtools ${this.state.enabled ? 'enabled' : ''}`}>
         <button onClick={this.toggleDevTools}> Toggle Dev Tools </button>
-        {this.state.enabled && this._renderDevTools()}
+        {this.state.enabled && this._renderDevToolsControls()}
       </div>
     );
   }
 }
+
+DevTools.propTypes = {
+  setHeartBeat: PropTypes.func,
+  transitionTo: PropTypes.func,
+  session: PropTypes.object
+};
 
 export default DevTools;

@@ -1,9 +1,11 @@
 import io from 'socket.io-client';
 import config from '../config.json';
 import * as sessionsActions from '../actions/session';
+import {SESSION_HEART_BEAT_STATE_CHANGE} from '../types';
 
 const socketMiddleware = (store) => {
   let socket;
+  let heartbeat = true;
 
   function _socketConnect () {
     if (config.socket.connect) {
@@ -36,10 +38,6 @@ const socketMiddleware = (store) => {
       return oldOn.call(this, name, _callback);
     };
   }
-
-//   function handleStateChange (data) {
-//       console.log()
-//   }
 
   const eventsToListenTo = {
     'connect': () => {
@@ -79,6 +77,8 @@ const socketMiddleware = (store) => {
 
     if (action.type === 'SOCKET_CONNECT') {
       _socketConnect();
+    } else if (action.type === SESSION_HEART_BEAT_STATE_CHANGE) {
+      heartbeat = action.newState || true;
     } else if (action.socketEvent && socket && socket.emit) {
       const payload = action.socketPayload || {};
       console.log('%cTX: ' + action.socketEvent, 'color: red; font-weight: bold', payload);

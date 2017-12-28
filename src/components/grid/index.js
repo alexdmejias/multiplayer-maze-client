@@ -148,10 +148,6 @@ class Grid extends Component {
           id: `${rowIndex}-${columnIndex}`,
           rowIndex,
           columnIndex,
-          position: {
-            top: rowIndex * 50,
-            left: columnIndex * 50
-          },
           links: {}
         };
 
@@ -198,7 +194,7 @@ class Grid extends Component {
         // 3 link to east
         // 5 link to north neighbor to east
         // 6 link to east neighbor north
-        const neighborLinkType = parseInt(currConnectionTypes[columnIndex]);
+        const neighborLinkType = parseInt(currConnectionTypes[columnIndex], 10);
         currentCell.connectionTypes = neighborLinkType;
 
         let neighborCell;
@@ -259,7 +255,7 @@ class Grid extends Component {
           };
 
           elems.push(
-            <Cell distance={cell.connectionTypes} key={cell.id} classes={classNames('cell', neighborClasses)} styles={cell.position} />
+            <Cell distance={cell.connectionTypes} key={cell.id} classes={classNames('cell', neighborClasses)} />
           );
         });
       });

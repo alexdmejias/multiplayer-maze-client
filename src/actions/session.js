@@ -22,3 +22,10 @@ export const stateChange = (state, devMode) => {
     state
   };
 };
+
+export const setHeartBeat = (newState) => {
+  return {
+    type: types.SESSION_HEART_BEAT_STATE_CHANGE,
+    newState
+  };
+};

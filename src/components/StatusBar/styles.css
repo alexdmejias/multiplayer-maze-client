@@ -10,4 +10,13 @@
 
 .status-bar p {
   margin: 0;
+  display: inline-block;
+}
+
+.status-bar ul {
+  margin: 0;
+}
+
+.status-bar li {
+  display: inline-block;
 }

@@ -14,6 +14,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     transitionTo: (state) => {
       dispatch(sessionActions.stateChange(state, true));
+    },
+    setHeartBeat: (state) => {
+      dispatch(sessionActions.setHeartBeat(state));
     }
   };
 };

@@ -6,7 +6,8 @@ const initState = {
   maze: '',
   mazeComplete: false,
   status: 'disconnected',
-  state: 'intermission'
+  state: 'intermission',
+  heartbeat: true
 };
 
 export default function session (state = initState, action) {
@@ -40,6 +41,12 @@ export default function session (state = initState, action) {
       return {
         ...state,
         state: action.state
+      };
+
+    case 'SESSION_HEART_BEAT_STATE_CHANGE':
+      return {
+        ...state,
+        heartbeat: action.newState
       };
 
     default:

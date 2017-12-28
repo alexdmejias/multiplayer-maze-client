@@ -5,7 +5,7 @@ import StatusBar from '../StatusBar';
 import PlayerList from '../PlayerList';
 import DevTools from '../../containers/devtools';
 
-import './styles.css';
+// import './styles.css';
 
 class App extends React.Component {
   componentDidMount () {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class GameStates extends React.Component {
   constructor (props) {
@@ -8,21 +9,26 @@ class GameStates extends React.Component {
   }
 
   _handleClick (state) {
-    console.log(':WASD');
     this.props.transitionTo(state);
   }
 
   _renderButton (state) {
-    return (<button onClick={() => this._handleClick(state)}>{state}</button>);
+    return (<div className={`button${this.props.currentState === state ? ' active' : ''}`} key={state} onClick={() => this._handleClick(state)}>{state}</div>);
   }
 
   render () {
     return (
-      <div>
-        {this.props.possibleStates.map((currState) => this._renderButton(currState))};
+      <div className='controls-group'>
+        {this.props.possibleStates.map((currState) => this._renderButton(currState))}
       </div>
     );
   }
 }
+
+GameStates.propTypes = {
+  currentState: PropTypes.string,
+  possibleStates: PropTypes.arrayOf(PropTypes.string),
+  transitionTo: PropTypes.func
+};
 
 export default GameStates;

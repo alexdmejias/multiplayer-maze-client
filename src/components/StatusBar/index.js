@@ -5,7 +5,10 @@ import './styles.css';
 const StatusBar = (props) => {
   return (
     <div style={props.styles} className='status-bar'>
-      <p>status: {props.session.status}</p>
+      <ul>
+        <li>status: {props.session.status} | </li>
+        <li>hearbeat: {props.session.heartbeat ? 'true' : 'false'}</li>
+      </ul>
     </div>
   );
 };
