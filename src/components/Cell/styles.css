@@ -1,15 +1,10 @@
 .cell {
-  position: absolute;
-  width: var(--cell-size);
-  height: var(--cell-size);
+  background: #eee;
   box-sizing: border-box;
-  background: #999;
-  transition: background 250ms, border-color 250ms;
-  border: 1px solid #999;
 }
 
 .cell.visited {
-  background: #888;
+  background: #ccc;
 }
 
 .cell.finish {
@@ -25,5 +20,9 @@
   position: absolute;
 }
 
-.b-e { border-right-color: black; }
-.b-s { border-bottom-color: black; }
+.b-e {
+  border-right: 1px solid black;
+}
+.b-s {
+  border-bottom: 1px solid black;
+}

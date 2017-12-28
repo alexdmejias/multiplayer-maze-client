@@ -6,13 +6,12 @@
 }
 
 .grid {
-  --border-width: 1px;
-  --cell-size: 50px;
-  /*--maze-size: 5;*/
-  position: absolute;
-  background: #999;
-  /*width: calc(var(--cell-size) * var(--maze-size));*/
-  /*height: calc(var(--cell-size) * var(--maze-size));*/
+  width: 500px;
+  height: 500px;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  margin: 0 auto;
   transition: background 1s;
 }
 
