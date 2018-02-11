@@ -19,11 +19,11 @@ export const connectionStatus = (status) => {
   };
 };
 
-export const stateChange = (state, devMode) => {
+export const stateChange = (gameState, devMode) => {
   return {
     type: types.SESSION_STATE_CHANGE,
     devMode,
-    state
+    gameState
   };
 };
 

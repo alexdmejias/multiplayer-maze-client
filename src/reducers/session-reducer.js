@@ -37,7 +37,8 @@ export default function session (state = initState, action) {
 
     case types.SESSION_STATE_CHANGE:
       const newState = {
-        state: action.state
+        ...state,
+        gameState: action.gameState
       };
 
       return {

@@ -52,7 +52,9 @@ class DevTools extends React.Component {
   _renderDevToolsControls () {
     return (
       <div className='controls'>
-        <GameStates transitionTo={this.transitionTo} possibleStates={this.state.possibleStates} currentState={this.props.session.state} />
+        <div className='controls-group'>
+          <GameStates transitionTo={this.transitionTo} possibleStates={this.state.possibleStates} currentState={this.props.session.gameState} />
+        </div>
         <hr />
         <div className='controls-group'>
           <div className={className('button', {'active': this.props.session.heartbeat})} onClick={() => this.setHeartBeat(true)}>Heartbeat: on</div>
