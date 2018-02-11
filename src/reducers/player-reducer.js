@@ -6,7 +6,6 @@ const initialState = {
 
 export default function player (state = initialState, action) {
   switch (action.type) {
-
     case types.PLAYER_MOVED:
       return {
         ...state,
@@ -14,6 +13,12 @@ export default function player (state = initialState, action) {
         lastVisitedCells: action.newPos
       };
 
+    case types.SESSION_MAZE_ARRIVAL:
+      return {
+        ...state,
+        visitedCells: [[9, 0]],
+        lastVisitedCells: [9, 0]
+      };
     case types.PLAYER_SCORED:
       return {
         ...state,
