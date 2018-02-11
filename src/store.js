@@ -13,4 +13,13 @@ const allReducers = combineReducers({
 
 const store = createStore(allReducers, enhancers);
 
+if (process.env.NODE_ENV !== "production") {
+  if (module.hot) {
+    module.hot.accept('./reducers', () => {
+      store.replaceReducer(allReducers)
+    })
+  }
+}
+
+
 export default store;
