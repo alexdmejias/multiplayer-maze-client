@@ -8,6 +8,10 @@ export const mazeArrival = (data, secret) => {
   };
 };
 
+/**
+ * sets the connection status of the client
+ * @param {String} status
+ */
 export const connectionStatus = (status) => {
   return {
     type: types.SESSION_CONNECTION_STATUS,
@@ -29,3 +33,10 @@ export const setHeartBeat = (newState) => {
     newState
   };
 };
+
+export const initConnection = (data) => {
+  return {
+    type: types.SESSION_INIT_CONNECTION,
+    data
+  }
+}

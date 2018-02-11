@@ -6,7 +6,6 @@ const initState = {
   maze: '',
   mazeComplete: false,
   status: 'disconnected',
-  state: 'intermission',
   heartbeat: true
 };
 
@@ -31,22 +30,30 @@ export default function session (state = initState, action) {
       };
 
     case types.SESSION_CONNECTION_STATUS:
-      console.info(action);
       return {
         ...state,
         status: action.status
       };
 
     case types.SESSION_STATE_CHANGE:
-      return {
-        ...state,
+      const newState = {
         state: action.state
       };
 
-    case 'SESSION_HEART_BEAT_STATE_CHANGE':
+      return {
+        ...state,
+        ...newState
+      };
+
+    case types.SESSION_HEART_BEAT_STATE_CHANGE:
       return {
         ...state,
         heartbeat: action.newState
+      };
+    case types.SESSION_INIT_CONNECTION:
+      return {
+        ...state,
+        state: action.data.currentState
       };
 
     default:
