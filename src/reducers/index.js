@@ -1,9 +1,11 @@
 import playerReducer from './player-reducer';
 import sessionReducer from './session-reducer';
+import opponentsReducer from './opponents-reducer';
 
 const reducers = {
   playerReducer,
-  sessionReducer
+  sessionReducer,
+  opponentsReducer
 };
 
 export default reducers;
