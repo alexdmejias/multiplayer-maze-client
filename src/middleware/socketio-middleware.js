@@ -31,7 +31,9 @@ const socketMiddleware = (store) => {
     return function (name, callback) {
       const _callback = (args) => {
         console.log('%cRX: ' + name, 'color: green; font-weight: bold', args || '');
-        if (callback) {
+        if (!heartbeat) {
+          console.log('ignoring event since heartbeat is off');
+        } else if (callback) {
           callback(args);
         }
       };
@@ -40,6 +42,9 @@ const socketMiddleware = (store) => {
   }
 
   const eventsToListenTo = {
+    // 'socket-initConnection': (data) => {
+    //   store.dispatch(sessionsActions.initConnection(data));
+    // },
     'connect': () => {
       store.dispatch(sessionsActions.connectionStatus('connected'));
     },
@@ -47,27 +52,28 @@ const socketMiddleware = (store) => {
       store.dispatch(sessionsActions.connectionStatus('disconnected'));
     },
     'connection': () => {
+      // someone connected?
     },
-    'mazeArrival': (data) => {
+    'maze-arrival': (data) => {
       if (data.secret) {
         store.dispatch(sessionsActions.mazeArrival(data, true));
       } else {
         store.dispatch(sessionsActions.mazeArrival(data));
       }
     },
-    'stateintermission': (data) => {
+    'fsm-intermission': (data) => {
       store.dispatch(sessionsActions.stateChange('intermission'));
     },
-    'statestarting': () => {
+    'fsm-starting': () => {
       store.dispatch(sessionsActions.stateChange('starting'));
     },
-    'statestarted': () => {
+    'fsm-started': () => {
       store.dispatch(sessionsActions.stateChange('started'));
     },
-    'statefinishing': () => {
+    'fsm-finishing': () => {
       store.dispatch(sessionsActions.stateChange('finishing'));
     },
-    'statefinished': () => {
+    'fsm-finished': () => {
       store.dispatch(sessionsActions.stateChange('finished'));
     }
   };
@@ -78,8 +84,8 @@ const socketMiddleware = (store) => {
     if (action.type === 'SOCKET_CONNECT') {
       _socketConnect();
     } else if (action.type === SESSION_HEART_BEAT_STATE_CHANGE) {
-      heartbeat = action.newState || true;
-    } else if (action.socketEvent && socket && socket.emit) {
+      heartbeat = action.newState;
+    } else if (action.socketEvent && socket && socket.emit && heartbeat) {
       const payload = action.socketPayload || {};
       console.log('%cTX: ' + action.socketEvent, 'color: red; font-weight: bold', payload);
       socket.emit(action.socketEvent, payload);
