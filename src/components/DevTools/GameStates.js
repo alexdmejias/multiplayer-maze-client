@@ -18,9 +18,7 @@ class GameStates extends React.Component {
 
   render () {
     return (
-      <div className='controls-group'>
-        {this.props.possibleStates.map((currState) => this._renderButton(currState))}
-      </div>
+      this.props.possibleStates.map((currState) => this._renderButton(currState))
     );
   }
 }
