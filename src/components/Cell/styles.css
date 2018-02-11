@@ -1,6 +1,7 @@
 .cell {
   background: #eee;
   box-sizing: border-box;
+  transition: background 200ms ease;
 }
 
 .cell.visited {
