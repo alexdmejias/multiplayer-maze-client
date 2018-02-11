@@ -2,7 +2,7 @@ import React from 'react';
 
 const Player = (props) => {
   return (
-    <p>I am a player</p>
+    <p>{props.name}</p>
   );
 };
 

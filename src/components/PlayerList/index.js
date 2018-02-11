@@ -6,20 +6,16 @@ class PlayerList extends Component {
   constructor () {
     super();
     this.players = [
-      {id: 'one', name: 'One'},
-      {id: 'two', name: 'Two'}
+      {id: 'one', name: 'John Doe'},
+      {id: 'two', name: 'Jane Doe'}
     ];
   }
 
   render () {
-    const players = this.players.map((currPlayer) => {
-      return <li><Player {...currPlayer} /></li>;
-    });
-    
     return (
       <div>
         <ul>
-          {players}
+          {this.players && this.players.map((curr) => <li key={curr.id}><Player {...curr} /></li>)}
         </ul>
       </div>
     );
