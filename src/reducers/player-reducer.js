@@ -1,7 +1,10 @@
 import * as types from '../types';
 
 const initialState = {
-  visitedCells: []
+  visitedCells: [],
+  movementAllowed: true,
+  wonCurrentRound: false,
+  score: 0
 };
 
 export default function player (state = initialState, action) {
@@ -17,14 +20,16 @@ export default function player (state = initialState, action) {
       return {
         ...state,
         visitedCells: [[9, 0]],
-        lastVisitedCells: [9, 0]
+        lastVisitedCells: [9, 0],
+        wonCurrentRound: false,
+        movementAllowed: true
       };
     case types.PLAYER_SCORED:
       return {
         ...state,
-        hasScored: true
+        wonCurrentRound: true,
+        movementAllowed: false
       };
-
     default:
       return state;
   }

@@ -265,16 +265,19 @@ class Grid extends Component {
   }
 
   handleMove (direction) {
-    const currPos = this.props.player.lastVisitedCells;
-    const possibleNeighbor = this.isNeighbor(currPos, direction);
+    if (this.props.player.movementAllowed) {
+      const currPos = this.props.player.lastVisitedCells;
+      const possibleNeighbor = this.isNeighbor(currPos, direction);
 
-    // can the player go to the the linked cell?
-    if (possibleNeighbor && this.isLink(this.getId(...currPos), possibleNeighbor.id)) {
-      this.props.playerMoved([possibleNeighbor.rowIndex, possibleNeighbor.columnIndex]);
-      if (isEqual(this.state.finish, [possibleNeighbor.rowIndex, possibleNeighbor.columnIndex])) {
-        console.log('you are at the finish line');
-        this.props.playerScored();
+      // can the player go to the the linked cell?
+      if (possibleNeighbor && this.isLink(this.getId(...currPos), possibleNeighbor.id)) {
+        this.props.playerMoved([possibleNeighbor.rowIndex, possibleNeighbor.columnIndex]);
+        if (isEqual(this.state.finish, [possibleNeighbor.rowIndex, possibleNeighbor.columnIndex])) {
+          console.log('you are at the finish line');
+          this.props.playerScored();
+        }
       }
+
     }
   }
 
