@@ -3,19 +3,12 @@ import React, {Component} from 'react';
 import Player from '../Player';
 
 class PlayerList extends Component {
-  constructor () {
-    super();
-    this.players = [
-      {id: 'one', name: 'John Doe'},
-      {id: 'two', name: 'Jane Doe'}
-    ];
-  }
-
   render () {
+    const players = Object.keys(this.props.players || []);
     return (
       <div>
         <ul>
-          {this.players && this.players.map((curr) => <li key={curr.id}><Player {...curr} /></li>)}
+          {players.length && players.map((curr) => <li key={this.props.players[curr].id}><Player {...this.props.players[curr]} /></li>)}
         </ul>
       </div>
     );

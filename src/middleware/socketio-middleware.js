@@ -42,9 +42,10 @@ const socketMiddleware = (store) => {
   }
 
   const eventsToListenTo = {
-    // 'socket-initConnection': (data) => {
-    //   store.dispatch(sessionsActions.initConnection(data));
-    // },
+    'socket-initConnection': (data) => {
+      // only received when current client joins
+      store.dispatch(sessionsActions.initConnection(data));
+    },
     'connect': () => {
       store.dispatch(sessionsActions.connectionStatus('connected'));
     },
@@ -52,7 +53,7 @@ const socketMiddleware = (store) => {
       store.dispatch(sessionsActions.connectionStatus('disconnected'));
     },
     'connection': () => {
-      // someone connected?
+      // not sure what triggers this event
     },
     'maze-arrival': (data) => {
       if (data.secret) {
@@ -75,6 +76,9 @@ const socketMiddleware = (store) => {
     },
     'fsm-finished': () => {
       store.dispatch(sessionsActions.stateChange('finished'));
+    },
+    'player-update': (player) => {
+      store.dispatch({type: 'PLAYER_UPDATE', player});
     }
   };
 

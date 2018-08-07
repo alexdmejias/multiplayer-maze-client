@@ -2,7 +2,6 @@ import {connect} from 'react-redux';
 import App from '../components/App';
 import * as actions from '../actions/player';
 
-
 const mapStateToProps = (state) => {
   return {
     player: state.playerReducer,

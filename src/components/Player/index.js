@@ -2,7 +2,7 @@ import React from 'react';
 
 const Player = (props) => {
   return (
-    <p>{props.name}</p>
+    <p>{props.id} - {props.currentScore}</p>
   );
 };
 

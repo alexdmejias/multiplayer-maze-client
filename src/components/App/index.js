@@ -2,7 +2,7 @@ import React from 'react';
 import Grid from '../Grid';
 
 import StatusBar from '../StatusBar';
-import PlayerList from '../PlayerList';
+import PlayerList from '../../containers/playersList';
 import DevTools from '../../containers/devtools';
 import Header from '../Header';
 
