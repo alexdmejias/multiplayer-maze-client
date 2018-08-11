@@ -31,14 +31,9 @@ export default function session (state = initState, action) {
       };
 
     case types.SESSION_STATE_CHANGE:
-      const newState = {
-        ...state,
-        gameState: action.gameState
-      };
-
       return {
         ...state,
-        ...newState
+        gameState: action.gameState
       };
 
     case types.SESSION_HEART_BEAT_STATE_CHANGE:

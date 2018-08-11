@@ -24,6 +24,12 @@ export default function player (state = initialState, action) {
         wonCurrentRound: false,
         movementAllowed: true
       };
+    case types.SESSION_STATE_CHANGE:
+      return {
+        ...state,
+        movementAllowed: action.gameState !== 'waiting'
+      };
+
     case types.PLAYER_SCORED:
       return {
         ...state,
