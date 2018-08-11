@@ -1,10 +1,9 @@
 import * as types from '../types';
 
-export const mazeArrival = (data, secret) => {
+export const mazeArrival = (data) => {
   return {
     type: types.SESSION_MAZE_ARRIVAL,
-    maze: data.maze,
-    secret
+    maze: data.maze
   };
 };
 

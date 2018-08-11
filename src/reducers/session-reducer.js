@@ -15,14 +15,9 @@ export default function session (state = initState, action) {
       break;
     case types.SESSION_MAZE_ARRIVAL:
       let maze = state.maze;
-      let mazeComplete = false;
+      let mazeComplete = true;
 
-      if (action.secret) {
-        maze += action.maze;
-        mazeComplete = true;
-      } else {
-        maze = action.maze;
-      }
+      maze = action.maze;
       return {
         ...state,
         mazeComplete,

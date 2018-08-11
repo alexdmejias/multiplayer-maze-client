@@ -12,7 +12,7 @@ class DevTools extends React.Component {
 
     this.state = {
       enabled: true,
-      possibleStates: ['intermission', 'starting', 'started', 'finishing', 'finished']
+      possibleStates: ['waiting', 'playing']
     };
 
     this.toggleDevTools = this.toggleDevTools.bind(this);

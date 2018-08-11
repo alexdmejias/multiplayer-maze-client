@@ -56,29 +56,19 @@ const socketMiddleware = (store) => {
       // not sure what triggers this event
     },
     'maze-arrival': (data) => {
-      if (data.secret) {
-        store.dispatch(sessionsActions.mazeArrival(data, true));
-      } else {
-        store.dispatch(sessionsActions.mazeArrival(data));
-      }
+      store.dispatch(sessionsActions.mazeArrival(data));
     },
-    'fsm-intermission': (data) => {
-      store.dispatch(sessionsActions.stateChange('intermission'));
+    'fsm-waiting': () => {
+      store.dispatch(sessionsActions.stateChange('waiting'));
     },
-    'fsm-starting': () => {
-      store.dispatch(sessionsActions.stateChange('starting'));
-    },
-    'fsm-started': () => {
-      store.dispatch(sessionsActions.stateChange('started'));
-    },
-    'fsm-finishing': () => {
-      store.dispatch(sessionsActions.stateChange('finishing'));
-    },
-    'fsm-finished': () => {
-      store.dispatch(sessionsActions.stateChange('finished'));
+    'fsm-playing': () => {
+      store.dispatch(sessionsActions.stateChange('playing'));
     },
     'player-update': (player) => {
       store.dispatch({type: 'PLAYER_UPDATE', player});
+    },
+    'debug': (message) => {
+      console.log('alexalex - ---------- socket debug message', message);
     }
   };
 
