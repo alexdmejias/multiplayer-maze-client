@@ -37,5 +37,5 @@ export const initConnection = (data) => {
   return {
     type: types.SESSION_INIT_CONNECTION,
     data
-  }
-}
+  };
+};

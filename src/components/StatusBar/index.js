@@ -2,12 +2,12 @@ import React from 'react';
 
 import './styles.css';
 
-const StatusBar = (props) => {
+const StatusBar = ({status, heartbeat}) => {
   return (
-    <div style={props.styles} className='status-bar'>
+    <div className='status-bar'>
       <ul>
-        <li>status: {props.session.status} | </li>
-        <li>hearbeat: {props.session.heartbeat ? 'true' : 'false'}</li>
+        <li>status: {status} | </li>
+        <li>hearbeat: {heartbeat ? 'true' : 'false'}</li>
       </ul>
     </div>
   );

@@ -277,7 +277,6 @@ class Grid extends Component {
           this.props.playerScored();
         }
       }
-
     }
   }
 
@@ -296,7 +295,12 @@ class Grid extends Component {
 Grid.propTypes = {
   player: PropTypes.shape({
     lastVisitedCells: PropTypes.array,
-    visitedCells: PropTypes.array
+    visitedCells: PropTypes.array,
+    movementAllowed: PropTypes.bool
+  }),
+  session: PropTypes.shape({
+    maze: PropTypes.string,
+    mazeComplete: PropTypes.bool
   }),
   playerMoved: PropTypes.func,
   playerScored: PropTypes.func

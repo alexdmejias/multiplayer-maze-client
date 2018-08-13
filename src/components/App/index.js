@@ -24,7 +24,7 @@ class App extends React.Component {
   render () {
     return (
       <div className='grid-container'>
-        <StatusBar {...this.props} />
+        <StatusBar {...this.props.session} />
         <DevTools />
         <PlayerList />
         <Header message={this._getHeaderMessage()} />
