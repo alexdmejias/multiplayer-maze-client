@@ -219,10 +219,7 @@ class Grid extends Component {
       this.preparedGrid = this.createGrid(mazeLength, mazeLength);
       this.setupGridNeighbors(this.preparedGrid);
 
-      if (props.session.mazeComplete) {
-        this.setupGridLinks(this.preparedGrid, props.session.maze);
-      }
-    }
+      this.setupGridLinks(this.preparedGrid, props.session.maze);
 
     this.setState({
       visitedCells: this.cellsToClasses(props.player.visitedCells),
@@ -299,8 +296,7 @@ Grid.propTypes = {
     movementAllowed: PropTypes.bool
   }),
   session: PropTypes.shape({
-    maze: PropTypes.string,
-    mazeComplete: PropTypes.bool
+    maze: PropTypes.string
   }),
   playerMoved: PropTypes.func,
   playerScored: PropTypes.func
