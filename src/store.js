@@ -1,9 +1,14 @@
 import {createStore, combineReducers, compose, applyMiddleware} from 'redux';
-
+import {createLogger} from 'redux-logger';
 import reducers from './reducers';
 import socketMiddleware from './middleware/socketio-middleware';
 
-const middlewares = [socketMiddleware];
+const logger = createLogger({
+  diff: true,
+  collapsed: true
+});
+
+const middlewares = [socketMiddleware, logger];
 const middlewareEnhancer = applyMiddleware(...middlewares);
 const enhancers = compose(middlewareEnhancer, window.devToolsExtension ? window.devToolsExtension() : f => f);
 
