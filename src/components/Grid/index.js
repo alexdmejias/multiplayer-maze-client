@@ -221,11 +221,12 @@ class Grid extends Component {
 
       this.setupGridLinks(this.preparedGrid, props.session.maze);
 
-    this.setState({
-      visitedCells: this.cellsToClasses(props.player.visitedCells),
-      lastVisitedCells: props.player.lastVisitedCells,
-      mazeLength
-    });
+      this.setState({
+        visitedCells: this.cellsToClasses(props.player.visitedCells),
+        lastVisitedCells: props.player.lastVisitedCells,
+        mazeLength
+      });
+    }
   }
 
   componentDidMount () {
@@ -279,6 +280,9 @@ class Grid extends Component {
 
   render () {
     const size = this.state.mazeLength * this.state.cellLength;
+    if (!this.state.mazeLength || !this.state.cellLength) {
+      debugger;
+    }
     return (
       <HotKeys keyMap={this.keyMap} handlers={this.handlers} className='grid-wrapper'>
         <div style={{width: size, height: size}} className={classNames('grid', {'green': this.state.showBorders})}>

@@ -39,3 +39,10 @@ export const initConnection = (data) => {
     data
   };
 };
+
+export const changeUsername = (newUsername) => {
+  return {
+    type: types.SESSION_CHANGE_USERNAME,
+    username: newUsername
+  };
+};

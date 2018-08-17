@@ -1,8 +1,7 @@
 import * as types from '../types';
 
 const initState = {
-  winningId: '0-9',
-  // sampleMaze: '3333333331|5555556662|6655556562|6566566562|5556666652|6565656562|6666666662|5565655562|5655656562|5555566552|'
+  winningId: '0-9', // todo this should come from the server and change on a per game basis
   maze: '',
   status: 'disconnected',
   heartbeat: true
@@ -12,6 +11,14 @@ export default function session (state = initState, action) {
   switch (action.type) {
     case types.SESSION_STARTED:
       break;
+    case types.SESSION_INIT_CONNECTION:
+      return {
+        ...state,
+        maze: action.data.maze,
+        gameState: action.data.currentState,
+        username: action.data.username,
+        status: 'connected'
+      };
     case types.SESSION_MAZE_ARRIVAL:
       return {
         ...state,
