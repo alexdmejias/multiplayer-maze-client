@@ -41,12 +41,6 @@ export default function session (state = initState, action) {
         ...state,
         heartbeat: action.newState
       };
-    case types.SESSION_INIT_CONNECTION:
-      return {
-        ...state,
-        state: action.data.currentState
-      };
-
     default:
       return state;
   }

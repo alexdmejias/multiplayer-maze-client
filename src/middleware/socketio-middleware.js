@@ -47,13 +47,11 @@ const socketMiddleware = (store) => {
       store.dispatch(sessionsActions.initConnection(data));
     },
     'connect': () => {
-      store.dispatch(sessionsActions.connectionStatus('connected'));
     },
     'disconnect': () => {
       store.dispatch(sessionsActions.connectionStatus('disconnected'));
     },
     'connection': () => {
-      // not sure what triggers this event
     },
     'maze-arrival': (data) => {
       store.dispatch(sessionsActions.mazeArrival(data));

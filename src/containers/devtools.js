@@ -2,7 +2,6 @@ import {connect} from 'react-redux';
 import DevTools from '../components/DevTools/DevTools';
 import * as sessionActions from '../actions/session';
 
-
 const mapStateToProps = (state) => {
   return {
     player: state.playerReducer,
