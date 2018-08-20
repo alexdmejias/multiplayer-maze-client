@@ -1,59 +1,31 @@
-import React from 'react';
-import Grid from '../Grid';
+import {connect} from 'react-redux';
+import App from './component';
+import * as actions from '../../actions/player';
 
-import StatusBar from '../StatusBar';
-import PlayerList from '../../containers/playersList';
-import DevTools from '../../containers/devtools';
-import Header from '../Header';
-import Overlay from '../../containers/overlay';
+const mapStateToProps = (state) => {
+  return {
+    player: state.playerReducer,
+    session: state.sessionReducer
+  };
+};
 
-// import './styles.css';
-
-class App extends React.Component {
-  componentDidMount () {
-    this.props.socketConnect();
-  }
-
-  _getHeaderMessage () {
-    // debugger;
-    if (this.props.player.wonCurrentRound) {
-      return 'you completed the maze! now we wait';
-    // } else if () {
-    //   return `waiting for next round to start`;
-    } else {
-      return `move!`;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    socketConnect: () => {
+      dispatch({type: 'SOCKET_CONNECT'});
+    },
+    playerMoved: (newPos) => {
+      dispatch(actions.playerMoved(newPos));
+    },
+    playerScored: () => {
+      dispatch(actions.playerScored());
     }
-  }
+  };
+};
 
-  _renderApp () {
-    return (
-      <React.Fragment>
-        <StatusBar {...this.props.session} />
-        <DevTools />
-        {/* <Overlay /> */}
-        <Header message={this._getHeaderMessage()} />
-        <div className='grid-wrapper'>
-          <PlayerList />
-          <Grid {...this.props} />
-        </div>
-      </React.Fragment>
-    );
-  }
+const AppContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
 
-  render () {
-    return (
-      <div className='grid-container'>
-        {
-          this.props.session.status === 'connected' &&
-          this._renderApp()
-        }
-
-        {this.props.session.status !== 'connected' &&
-          <p>whoops somethign is wrong</p>
-        }
-      </div>
-    );
-  }
-}
-
-export default App;
+export default AppContainer;

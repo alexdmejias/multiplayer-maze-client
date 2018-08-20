@@ -300,7 +300,7 @@ class Grid extends Component {
     }
 
     return (
-      <HotKeys keyMap={this.keyMap} handlers={this.handlers} className='grid-wrapper'>
+      <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
         <div style={{position: 'relative'}}>
           <div style={loadingStyles}><p style={{color: 'white'}}>loading...</p></div>
           <div style={{width: size, height: size}} className={classNames('grid', {'green': this.state.showBorders})}>
