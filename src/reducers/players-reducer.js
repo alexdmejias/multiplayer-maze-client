@@ -1,13 +1,16 @@
 import * as types from '../types';
 
-const initialState = { };
+const initialState = {
+  players: {}
+};
 
 export default function players (state = initialState, action) {
   switch (action.type) {
-    case types.PLAYER_UPDATE:
+    case types.PLAYERS_UPDATE:
+    case types.SESSION_INIT_CONNECTION:
       return {
         ...state,
-        [action.player.id]: action.player
+        players: action.data.players
       };
     default:
       return state;

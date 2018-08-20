@@ -283,10 +283,30 @@ class Grid extends Component {
     if (!this.state.mazeLength || !this.state.cellLength) {
       debugger;
     }
+
+    const loadingStyles = {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: 'black',
+      opacity: 0,
+      transition: 'opacity 300ms'
+    };
+
+    if (this.props.session.gameState === 'waiting') {
+      loadingStyles.opacity = 1;
+    }
+
     return (
       <HotKeys keyMap={this.keyMap} handlers={this.handlers} className='grid-wrapper'>
-        <div style={{width: size, height: size}} className={classNames('grid', {'green': this.state.showBorders})}>
-          { this.renderGrid() }
+        <div style={{position: 'relative'}}>
+          <div style={loadingStyles}><p style={{color: 'white'}}>loading...</p></div>
+          <div style={{width: size, height: size}} className={classNames('grid', {'green': this.state.showBorders})}>
+            {this.renderGrid()}
+          </div>
+
         </div>
       </HotKeys>
     );

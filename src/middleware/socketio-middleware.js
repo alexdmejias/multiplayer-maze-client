@@ -1,6 +1,8 @@
 import io from 'socket.io-client';
 import config from '../config.json';
 import * as sessionsActions from '../actions/session';
+import * as playersActions from '../actions/players';
+
 import {SESSION_HEART_BEAT_STATE_CHANGE} from '../types';
 
 const socketMiddleware = (store) => {
@@ -53,17 +55,22 @@ const socketMiddleware = (store) => {
     },
     'connection': () => {
     },
+    'connected': () => {
+      debugger
+    },
     'maze-arrival': (data) => {
       store.dispatch(sessionsActions.mazeArrival(data));
     },
     'fsm-waiting': () => {
+      // debugger;
       store.dispatch(sessionsActions.stateChange('waiting'));
     },
     'fsm-playing': () => {
       store.dispatch(sessionsActions.stateChange('playing'));
     },
-    'player-update': (player) => {
-      store.dispatch({type: 'PLAYER_UPDATE', player});
+    'players-update': (players) => {
+      // debugger;
+      store.dispatch(playersActions.playersUpdate(players));
     },
     'debug': (message) => {
       console.log('alexalex - ---------- socket debug message', message);

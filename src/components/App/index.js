@@ -28,12 +28,14 @@ class App extends React.Component {
   _renderApp () {
     return (
       <React.Fragment>
-        <StatusBar {...this.props.session} />,
-        <DevTools />,
-        <Overlay />,
-        <PlayerList />,
-        <Header message={this._getHeaderMessage()} />,
-        <Grid {...this.props} />
+        <StatusBar {...this.props.session} />
+        <DevTools />
+        {/* <Overlay /> */}
+        <Header message={this._getHeaderMessage()} />
+        <div className='grid-wrapper'>
+          <PlayerList />
+          <Grid {...this.props} />
+        </div>
       </React.Fragment>
     );
   }

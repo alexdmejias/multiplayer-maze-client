@@ -29,7 +29,7 @@ class Overlay extends Component {
 
   _renderOverlay () {
     return (
-      <div style={{position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, backgroundColor: 'black'}}>
+      <div style={{position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, backgroundColor: 'black', zIndex: 100}}>
         <input type="text" value={this.state.currentUsername} onKeyUp={this._handleKeyUp} />
         <button onClick={this._handleConfirmPress}> confirm</button>
       </div>

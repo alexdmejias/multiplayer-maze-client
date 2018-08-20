@@ -1,8 +1,10 @@
 import * as types from '../types';
 
-export const playerUpdate = (player) => {
+export const playersUpdate = (players) => {
   return {
-    type: types.PLAYER_UPDATE,
-    player
+    type: types.PLAYERS_UPDATE,
+    data: {
+      players
+    }
   };
 };

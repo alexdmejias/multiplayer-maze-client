@@ -1,7 +1,7 @@
 .grid-wrapper {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: top;
+  justify-content: space-between;
   height: 100%;
 }
 
