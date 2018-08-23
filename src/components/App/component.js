@@ -1,6 +1,7 @@
 import React from 'react';
-import Grid from '../Grid';
 
+import { playerReducerPropTypes, sessionReducerPropTypes } from '../../interfaces';
+import Grid from '../Grid';
 import StatusBar from '../StatusBar';
 import PlayerList from '../PlayerList';
 import DevTools from '../DevTools';
@@ -44,5 +45,10 @@ class App extends React.Component {
     );
   }
 }
+
+App.propTypes = {
+  session: sessionReducerPropTypes,
+  player: playerReducerPropTypes
+};
 
 export default App;
