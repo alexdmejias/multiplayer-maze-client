@@ -14,24 +14,13 @@ class App extends React.Component {
     this.props.socketConnect();
   }
 
-  _getHeaderMessage () {
-    // debugger;
-    if (this.props.player.wonCurrentRound) {
-      return 'you completed the maze! now we wait';
-    // } else if () {
-    //   return `waiting for next round to start`;
-    } else {
-      return `move!`;
-    }
-  }
-
   _renderApp () {
     return (
       <React.Fragment>
         <StatusBar {...this.props.session} />
         <DevTools />
         {/* <Overlay /> */}
-        <Header message={this._getHeaderMessage()} />
+        <Header gameState={this.props.session.gameState} wonCurrentRound={this.props.player.wonCurrentRound} />
         <div className='grid-wrapper'>
           <PlayerList />
           <Grid {...this.props} />
