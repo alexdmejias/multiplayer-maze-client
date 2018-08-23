@@ -281,32 +281,31 @@ class Grid extends Component {
   render () {
     const size = this.state.mazeLength * this.state.cellLength;
     if (!this.state.mazeLength || !this.state.cellLength) {
-      debugger;
+      // debugger;
     }
 
     const loadingStyles = {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
       background: 'black',
       opacity: 0,
-      transition: 'opacity 300ms'
+      transition: 'opacity 300ms',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
     };
 
     if (this.props.session.gameState === 'waiting') {
-      loadingStyles.opacity = 1;
+      loadingStyles.opacity = 0.75;
     }
 
     return (
       <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
         <div style={{position: 'relative'}}>
-          <div style={loadingStyles}><p style={{color: 'white'}}>loading...</p></div>
+          <div className={'fill'} style={loadingStyles}>
+            <p style={{color: 'white'}}>Waiting for next round to begin</p>
+          </div>
           <div style={{width: size, height: size}} className={classNames('grid', {'green': this.state.showBorders})}>
             {this.renderGrid()}
           </div>
-
         </div>
       </HotKeys>
     );
@@ -320,7 +319,8 @@ Grid.propTypes = {
     movementAllowed: PropTypes.bool
   }),
   session: PropTypes.shape({
-    maze: PropTypes.string
+    maze: PropTypes.string,
+    gameState: PropTypes.string
   }),
   playerMoved: PropTypes.func,
   playerScored: PropTypes.func
