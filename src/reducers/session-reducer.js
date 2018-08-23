@@ -17,6 +17,7 @@ export default function session (state = initState, action) {
         maze: action.data.maze,
         gameState: action.data.currentState,
         username: action.data.username,
+        id: action.data.id,
         status: 'connected'
       };
     case types.SESSION_MAZE_ARRIVAL:
