@@ -20,11 +20,6 @@ export default function session (state = initState, action) {
         id: action.data.id,
         status: 'connected'
       };
-    case types.SESSION_MAZE_ARRIVAL:
-      return {
-        ...state,
-        maze: action.maze
-      };
 
     case types.SESSION_CONNECTION_STATUS:
       return {
@@ -35,7 +30,7 @@ export default function session (state = initState, action) {
     case types.SESSION_STATE_CHANGE:
       return {
         ...state,
-        gameState: action.gameState
+        ...action.data
       };
 
     case types.SESSION_HEART_BEAT_STATE_CHANGE:
@@ -43,6 +38,7 @@ export default function session (state = initState, action) {
         ...state,
         heartbeat: action.newState
       };
+
     default:
       return state;
   }

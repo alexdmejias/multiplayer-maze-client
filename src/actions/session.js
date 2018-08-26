@@ -1,12 +1,5 @@
 import * as types from '../types';
 
-export const mazeArrival = (data) => {
-  return {
-    type: types.SESSION_MAZE_ARRIVAL,
-    maze: data.maze
-  };
-};
-
 /**
  * sets the connection status of the client
  * @param {String} status
@@ -18,11 +11,10 @@ export const connectionStatus = (status) => {
   };
 };
 
-export const stateChange = (gameState, devMode) => {
+export const stateChange = (data) => {
   return {
     type: types.SESSION_STATE_CHANGE,
-    devMode,
-    gameState
+    data
   };
 };
 

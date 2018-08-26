@@ -56,20 +56,12 @@ const socketMiddleware = (store) => {
     'connection': () => {
     },
     'connected': () => {
-      debugger
+      // debugger
     },
-    'maze-arrival': (data) => {
-      store.dispatch(sessionsActions.mazeArrival(data));
-    },
-    'fsm-waiting': () => {
-      // debugger;
-      store.dispatch(sessionsActions.stateChange('waiting'));
-    },
-    'fsm-playing': () => {
-      store.dispatch(sessionsActions.stateChange('playing'));
+    'fsm-state-change': (data) => {
+      store.dispatch(sessionsActions.stateChange(data));
     },
     'players-update': (players) => {
-      // debugger;
       store.dispatch(playersActions.playersUpdate(players));
     },
     'debug': (message) => {
