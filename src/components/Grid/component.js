@@ -32,15 +32,9 @@ class Grid extends Component {
       mazeLength: 10,
       cellLength: 50,
       showBorders: true
-      // maze: ''
     };
 
-    // this.lastProcessedId = '';
-
-    this.links = {};
-
     this.keyMap = config.keyMap;
-    this.hasPrevMaze = false;
 
     this.handlers = {
       'north': () => { this.handleMove('north'); },
@@ -63,43 +57,12 @@ class Grid extends Component {
       preparedMaze = createGrid(10, 10);
       preparedMaze = setupGridNeighbors(preparedMaze);
       preparedMaze = setupGridLinks(preparedMaze, mazeAsString);
-      // this.lastProcessedId = newMazeId;
-      // this.maze = preparedMaze;
     } else {
       console.log('alexalex - |||||||||', 'returning');
       preparedMaze = this.state.maze;
     }
 
     return preparedMaze;
-  }
-
-  setupGridLinks (grid, connectionTypes) {
-    const wasd = connectionTypes.split('|');
-
-    grid.forEach((row, rowIndex) => {
-      const currConnectionTypes = wasd[rowIndex];
-      row.forEach((currentCell, columnIndex) => {
-        // 1 no link no neighbor
-        // 2 link to north
-        // 3 link to east
-        // 5 link to north neighbor to east
-        // 6 link to east neighbor north
-        const neighborLinkType = parseInt(currConnectionTypes[columnIndex], 10);
-        currentCell.connectionTypes = neighborLinkType;
-
-        let neighborCell;
-        if (neighborLinkType === 2 || neighborLinkType === 5) {
-          neighborCell = grid[rowIndex - 1] && grid[rowIndex - 1][columnIndex] ? grid[rowIndex - 1][columnIndex] : null;
-        } else if (neighborLinkType === 3 || neighborLinkType === 6) {
-          neighborCell = grid[rowIndex][columnIndex + 1];
-        }
-
-        if (neighborCell) {
-          currentCell.links[neighborCell.id] = neighborCell;
-          neighborCell.links[currentCell.id] = currentCell;
-        }
-      });
-    });
   }
 
   componentWillReceiveProps (props) { //TODO: getting deprecated
@@ -127,10 +90,10 @@ class Grid extends Component {
   handleMove (direction) {
     if (this.props.player.movementAllowed) {
       const currPos = this.props.player.lastVisitedCells;
-      const possibleNeighbor = isNeighbor(currPos, direction, this.state.preparedMaze);
+      const possibleNeighbor = isNeighbor(currPos, direction, this.state.maze);
 
       // can the player go to the the linked cell?
-      if (possibleNeighbor && isLink(getId(currPos[0], currPos[1]), possibleNeighbor.id, this.state.preparedMaze)) {
+      if (possibleNeighbor && isLink(getId(currPos[0], currPos[1]), possibleNeighbor.id, this.state.maze)) {
         this.props.playerMoved([possibleNeighbor.rowIndex, possibleNeighbor.columnIndex]);
         if (isEqual(this.state.finish, [possibleNeighbor.rowIndex, possibleNeighbor.columnIndex])) {
           console.log('you are at the finish line');
@@ -143,17 +106,12 @@ class Grid extends Component {
   componentDidUpdate (prevProps, prevState) {
     const propsMaze = this.props.session.maze;
     const propsMazeId = this.generateMazeId(propsMaze);
-    const prevMaze = prevProps.session.maze;
-    console.log('alexalex - ----------componentDidUpdate', this.state.lastProcessedId, propsMazeId);
+
     if (this.state.lastProcessedId !== propsMazeId) {
-      console.log('alexalex - ----------', 'if', this.generateMazeId(prevMaze), propsMazeId);
       this.setState({
         lastProcessedId: propsMazeId,
         maze: this.setupMaze(propsMaze)
       });
-    } else {
-      console.log('alexalex - ----------', 'else');
-      // debugger;
     }
   }
 
@@ -162,7 +120,7 @@ class Grid extends Component {
       const elems = [];
 
       this.state.maze.forEach((row) => {
-        row.forEach((cell, columnIndex) => {
+        row.forEach((cell) => {
           const currentCell = this.state.lastVisitedCells;
           const neighborClasses = {
             'b-e': cell.neighbors.east ? !isLink(cell, cell.neighbors.east.id, this.state.maze) : false,
