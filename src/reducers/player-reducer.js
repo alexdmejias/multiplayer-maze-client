@@ -12,8 +12,7 @@ export default function player (state = initialState, action) {
     case types.PLAYER_MOVED:
       return {
         ...state,
-        visitedCells: state.visitedCells.concat([action.newPos]),
-        lastVisitedCells: action.newPos
+        visitedCells: state.visitedCells.concat([action.newPos.join('-')])
       };
 
     case types.SESSION_MAZE_ARRIVAL:

@@ -65,23 +65,23 @@ class Grid extends Component {
     return preparedMaze;
   }
 
-  componentWillReceiveProps (props) { //TODO: getting deprecated
-    console.log('alexalex - @@@@@@', 'componentWillReceiveProps', props);
-    let mazeLength;
-    // if (this.state.maze) {
-    //   mazeLength = this.state.maze.indexOf('|');
-    //   // this.state.preparedMaze = createGrid(mazeLength, mazeLength);
-    //   // setupGridNeighbors(this.state.preparedMaze);
+  // componentWillReceiveProps (props) { //TODO: getting deprecated
+  //   console.log('alexalex - @@@@@@', 'componentWillReceiveProps', props);
+  //   let mazeLength;
+  //   if (this.state.maze) {
+  //     mazeLength = this.state.maze.indexOf('|');
+  //   //   // this.state.preparedMaze = createGrid(mazeLength, mazeLength);
+  //   //   // setupGridNeighbors(this.state.preparedMaze);
 
-    //   // this.setupGridLinks(this.state.preparedMaze, props.session.maze);
+  //   //   // this.setupGridLinks(this.state.preparedMaze, props.session.maze);
 
-    //   this.setState({
-    //     visitedCells: cellsToClasses(props.player.visitedCells),
-    //     lastVisitedCells: props.player.lastVisitedCells,
-    //     mazeLength
-    //   });
-    // }
-  }
+  //     this.setState({
+  //       visitedCells: cellsToClasses(props.player.visitedCells),
+  //       lastVisitedCells: props.player.lastVisitedCells,
+  //       mazeLength
+  //     });
+  //   }
+  // }
 
   componentDidMount () {
     this.props.playerMoved(this.state.start);
@@ -89,7 +89,8 @@ class Grid extends Component {
 
   handleMove (direction) {
     if (this.props.player.movementAllowed) {
-      const currPos = this.props.player.lastVisitedCells;
+      const {visitedCells} = this.props.player;
+      const currPos = visitedCells[visitedCells.length - 1];
       const possibleNeighbor = isNeighbor(currPos, direction, this.state.maze);
 
       // can the player go to the the linked cell?
@@ -116,28 +117,42 @@ class Grid extends Component {
   }
 
   renderGrid () {
+    console.log('alexalex - ----------', this.props.player);
     if (this.state.maze) {
       const elems = [];
+      const {visitedCells} = this.props.player;
+      const currentCell = visitedCells[visitedCells.length - 1];
 
-      this.state.maze.forEach((row) => {
-        row.forEach((cell) => {
-          const currentCell = this.state.lastVisitedCells;
-          const neighborClasses = {
-            'b-e': cell.neighbors.east ? !isLink(cell, cell.neighbors.east.id, this.state.maze) : false,
-            'b-s': cell.neighbors.south ? !isLink(cell, cell.neighbors.south.id, this.state.maze) : false,
-            'visited': this.state.visitedCells.indexOf(cell.id) > -1,
-            'current': currentCell ? currentCell.join('-') === cell.id : '',
-            'finish': isEqual(this.state.finish.join('-'), cell.id)
-          };
-
-          elems.push(
-            <Cell distance={`${cell.connectionTypes}   ${cell.id}`} key={cell.id} classes={classNames('cell', neighborClasses)} />
-          );
-        });
+      return this.state.maze.map((row) => {
+        return (
+          <div className='row'>
+            {this.renderRow(row, visitedCells, currentCell)}
+          </div>
+        );
       });
-
-      return elems.map((curr) => curr);
     }
+  }
+
+  renderRow(row, visitedCells, currentCell) {
+    return row.map((cell) => {
+      if (cell.id === '9-0' || cell.id === '9-1') {
+        debugger;
+      }
+      // debugger;
+      const neighborClasses = {
+        'b-e': cell.neighbors.east ? !isLink(cell, cell.neighbors.east.id, this.state.maze) : false,
+        'b-s': cell.neighbors.south ? !isLink(cell, cell.neighbors.south.id, this.state.maze) : false,
+        'visited': visitedCells.indexOf(cell.id) > -1,
+        'current': currentCell ? currentCell.join('-') === cell.id : '',
+        'finish': isEqual(this.state.finish.join('-'), cell.id)
+      };
+
+      if (cell.id === '9-0' || cell.id === '9-1') {
+        debugger;
+      }
+
+      return <Cell distance={`${cell.connectionTypes} --- ${cell.id}`} key={cell.id} classes={classNames('cell', neighborClasses)} />
+    });
   }
 
   render () {

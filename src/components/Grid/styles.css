@@ -8,13 +8,21 @@
 .grid {
   width: 500px;
   height: 500px;
-  display: grid;
+  /* display: grid;
   grid-template-columns: repeat(10, 1fr);
-  grid-template-rows: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr); */
   margin: 0 auto;
   transition: background 1s;
+  display: flex;
+  flex-direction: column;
 }
 
 .grid.green {
   background: green;
+}
+
+.row {
+  display: flex;
+  height: 100%;
+  width: 100%;
 }
