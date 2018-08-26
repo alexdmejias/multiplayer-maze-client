@@ -2,42 +2,65 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch",
-      "type": "node",
-      "request": "launch",
-      "program": "${workspaceRoot}/src/Common/index.js",
-      "stopOnEntry": false,
-      "args": [],
-      "cwd": "${workspaceRoot}",
-      "preLaunchTask": null,
-      "runtimeExecutable": null,
-      "runtimeArgs": [
-        "--nolazy"
-      ],
-      "env": {
-        "NODE_ENV": "development"
-      },
-      "externalConsole": false,
-      "sourceMaps": false,
-      "outDir": null
+     "name": "Chrome",
+     "type": "chrome",
+     "request": "launch",
+     "url": "http://localhost:3001",
+     "webRoot": "${workspaceRoot}/src",
+     "sourceMapPathOverrides": {
+       "webpack:///src/*": "${webRoot}/*"
+     }
     },
-    {
-      "name": "Launch localhost with sourcemaps",
-      "type": "chrome",
-      "request": "launch",
-      "url": "http://localhost:3000",
-      "webRoot": "${workspaceRoot}/src",
-      "sourceMaps": true,
-      "userDataDir": "${workspaceRoot}/.vscode/chrome"
-    },
-    {
-      "name": "Attach to Process",
-      "type": "node",
-      "request": "attach",
-      "processId": "${command.PickProcess}",
-      "port": 5858,
-      "sourceMaps": false,
-      "outDir": null
-    }
+//     {
+//       "name": "Launch",
+//       "type": "node",
+//       "request": "launch",
+//       "program": "${workspaceRoot}/src/Common/index.js",
+//       "stopOnEntry": false,
+//       "args": [],
+//       "cwd": "${workspaceRoot}",
+//       "preLaunchTask": null,
+//       "runtimeExecutable": null,
+//       "runtimeArgs": [
+//         "--nolazy"
+//       ],
+//       "env": {
+//         "NODE_ENV": "development"
+//       },
+//       "externalConsole": false,
+//       "sourceMaps": false,
+//       "outDir": null
+//     },
+    // {
+    //   "name": "Launch localhost with sourcemaps",
+    //   "type": "chrome",
+    //   "request": "launch",
+    //   "url": "http://localhost:3001",
+    //   "webRoot": "${workspaceRoot}/src",
+    //   "sourceMaps": true,
+    //   "userDataDir": "${workspaceRoot}/.vscode/chrome"
+    // },
+    // {
+    //   "name": "Attach to Process",
+    //   "type": "node",
+    //   "request": "attach",
+    //   "processId": "${command.PickProcess}",
+    //   "port": 5858,
+    //   "sourceMaps": true,
+    //   "outDir": null
+    // }
   ]
 }
+
+// {
+//   "version": "0.2.0",
+//   "configurations": [
+//       {
+//           "name": "Chrome",
+//           "type": "chrome",
+//           "request": "attach",
+//           "url": "http://localhost:3001",
+//           "webRoot": "${workspaceRoot}/src"
+//       }
+//   ]
+// }
