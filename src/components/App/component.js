@@ -24,7 +24,7 @@ class App extends React.Component {
         <Header gameState={this.props.session.gameState} wonCurrentRound={this.props.player.wonCurrentRound} />
         <div className='grid-wrapper'>
           <PlayerList />
-          <Grid {...this.props} />
+          <Grid />
         </div>
       </React.Fragment>
     );
