@@ -94,7 +94,7 @@ class Grid extends Component {
       const possibleNeighbor = isNeighbor(currPos, direction, this.state.maze);
 
       // can the player go to the the linked cell?
-      if (possibleNeighbor && isLink(getId(currPos[0], currPos[1]), possibleNeighbor.id, this.state.maze)) {
+      if (possibleNeighbor && isLink(getId(currPos[0], currPos[2]), possibleNeighbor.id, this.state.maze)) {
         this.props.playerMoved([possibleNeighbor.rowIndex, possibleNeighbor.columnIndex]);
         if (isEqual(this.state.finish, [possibleNeighbor.rowIndex, possibleNeighbor.columnIndex])) {
           console.log('you are at the finish line');
@@ -136,19 +136,18 @@ class Grid extends Component {
   renderRow(row, visitedCells, currentCell) {
     return row.map((cell) => {
       if (cell.id === '9-0' || cell.id === '9-1') {
-        debugger;
+        // debugger;
       }
-      // debugger;
       const neighborClasses = {
         'b-e': cell.neighbors.east ? !isLink(cell, cell.neighbors.east.id, this.state.maze) : false,
         'b-s': cell.neighbors.south ? !isLink(cell, cell.neighbors.south.id, this.state.maze) : false,
         'visited': visitedCells.indexOf(cell.id) > -1,
-        'current': currentCell ? currentCell.join('-') === cell.id : '',
+        'current': currentCell ? currentCell === cell.id : '',
         'finish': isEqual(this.state.finish.join('-'), cell.id)
       };
 
       if (cell.id === '9-0' || cell.id === '9-1') {
-        debugger;
+        // debugger;
       }
 
       return <Cell distance={`${cell.connectionTypes} --- ${cell.id}`} key={cell.id} classes={classNames('cell', neighborClasses)} />
